@@ -1,0 +1,540 @@
+app:
+  description: 受付コンシェルジュ（Phase1-5）簡易ワークフロー。固定テンプレ＋スロット回収＋電話アポ獲得
+  icon: 🤖
+  icon_background: '#D5F5F6'
+  mode: advanced-chat
+  name: いえすまLINE_受付コンシェルジュ_PhaseFlow_v1
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/openai:0.2.8@aae2be0913b8c6f0b80cff58e08d7a8b4c214569b41778413fcaea204561ff16
+    version: null
+kind: app
+version: 0.6.0
+workflow:
+  conversation_variables:
+  - description: ''
+    id: cff00dbe-7b2c-4f47-9c75-89ad5cd4d394
+    name: cv_slots
+    selector:
+    - conversation
+    - cv_slots
+    value: {}
+    value_type: object
+  - description: ''
+    id: 8d440c84-2891-4cd8-b4e5-4f1dd373d124
+    name: cv_state
+    selector:
+    - conversation
+    - cv_state
+    value: ''
+    value_type: string
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        attachment_image_file_size_limit: 2
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        file_upload_limit: 50
+        image_file_batch_limit: 10
+        image_file_size_limit: 10
+        single_chunk_attachment_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInLoop: false
+        sourceType: start
+        targetType: llm
+      id: 1900000100001-source-1900000100002-target
+      selected: false
+      source: '1900000100001'
+      sourceHandle: source
+      target: '1900000100002'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: 1900000100002-source-1900000100003-target
+      selected: false
+      source: '1900000100002'
+      sourceHandle: source
+      target: '1900000100003'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: assigner
+      id: 1900000100003-source-1900000100004-target
+      selected: false
+      source: '1900000100003'
+      sourceHandle: source
+      target: '1900000100004'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: assigner
+        targetType: answer
+      id: 1900000100004-source-1900000100005-target
+      selected: false
+      source: '1900000100004'
+      sourceHandle: source
+      target: '1900000100005'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        selected: false
+        title: ユーザー入力
+        type: start
+        variables: []
+      height: 73
+      id: '1900000100001'
+      position:
+        x: 0
+        y: 0
+      positionAbsolute:
+        x: 0
+        y: 0
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        memory:
+          enabled: false
+          window:
+            enabled: false
+            size: 10
+        model:
+          completion_params:
+            temperature: 0.2
+          mode: chat
+          name: o4-mini
+          provider: langgenius/openai/openai
+        prompt_template:
+        - id: e38a2c91-5e2d-46e1-8f36-c13176c9d2cd
+          role: system
+          text: 'あなたは不動産兼建築会社「株式会社エルスタット」が運営する住宅ローン相談サービス「いえすま」の受付AI。
+
+            ユーザーの入力（箇条書き/テンプレ回答/自由文）から、下記のキーを抽出し **必ずJSONのみ** で返す。
+
+
+            【最重要ルール】
+
+            - 出力は必ずJSONのみ（前後に文章・説明・コードブロックを付けない）
+
+            - 可能なものだけ埋め、不明/未記載は空文字 "" にする
+
+            - Yes/No系はできるだけ「はい」「いいえ」「不明」に正規化する（判断できない場合は "" ）
+
+            - 数値はそのまま文字列でOK（例: "600万", "12万" など）
+
+
+            【抽出キー（必ず含める）】
+
+            # Phase1 共通8項目
+
+            - prefecture
+
+            - employment_type
+
+            - annual_income
+
+            - loan_count
+
+            - loan_total_amount
+
+            - monthly_repayment_total
+
+            - has_delinquency            # はい/いいえ/不明
+
+            - has_past_screening_failure # はい/いいえ/不明
+
+
+            # Phase2 深掘り（遅延あり等）
+
+            - delay_count
+
+            - delay_max_period
+
+            - credit_info_checked         # 確認済み/未確認/不明
+
+            - has_derogatory              # 債権異動の有無：あり/なし/不明 or はい/いいえ/不明
+
+            - has_restructuring           # 債務整理/自己破産：あり/なし/不明 or はい/いいえ/不明
+
+
+            # 異動詳細（has_derogatoryが肯定のとき）
+
+            - derogatory_start_ym         # YYYY-MM
+
+            - derogatory_repay_status     # 返済中/完済
+
+            - derogatory_finish_ym        # YYYY-MM
+
+
+            # 整理詳細（has_restructuringが肯定のとき）
+
+            - restructuring_start_ym      # YYYY-MM
+
+            - restructuring_repay_status  # 返済中/完済
+
+            - restructuring_finish_ym     # YYYY-MM
+
+
+            # 審査落ち詳細（has_past_screening_failureが肯定のとき）
+
+            - screening_bank_name
+
+            - screening_applicant_type
+
+            - screening_income_at_apply
+
+            - desired_loan_amount
+
+            - property_type
+
+            - property_info
+
+
+            # 電話意向/日程（Phase4-5）
+
+            - call_intent                 # agree / refuse / unknown / ""
+
+            - schedule_full_name
+
+            - schedule_phone
+
+            - schedule_dt1
+
+            - schedule_dt2
+
+            - schedule_dt3
+
+
+            【出力例】
+
+            {"prefecture":"愛知県","employment_type":"会社員","annual_income":"600万", ...
+            }'
+        - id: 2d9f74f1-ef5b-40b1-bd1b-4dfa81d367e3
+          role: user
+          text: '{{#sys.query#}}'
+        selected: false
+        structured_output: {}
+        structured_output_enabled: false
+        title: LLM__SLOT_EXTRACT_ALL
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1900000100002'
+      position:
+        x: 330
+        y: 0
+      positionAbsolute:
+        x: 330
+        y: 0
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "function main(inputs) {\n  const query = (inputs.query || \"\").toString();\n\
+          \  const raw = (inputs.llm_json_text || \"\").toString();\n  const state\
+          \ = (inputs.cv_state || \"\").toString().trim() || \"PH1_COMMON\";\n  const\
+          \ prevSlots = (inputs.cv_slots && typeof inputs.cv_slots === \"object\"\
+          ) ? inputs.cv_slots : {};\n\n  const TEXT_A = `弊社フォーマットに沿ってのご回答、ありがとうございます。頂いた内容を拝見する限り、住宅ローンについては問題なく通せると考えております。ちなみにですが、今回お問い合わせ頂きました背景として、「他の不動産会社に断られた」「融資額が希望額に届かない」など、何かご不安やご懸念はございますでしょうか？`;\n\
+          \  const TEXT_B1 = `ご共有いただきありがとうございます。そうだったのですね・・・確かにお借入がある場合、審査が厳しくなることもございますが、銀行によって審査の基準や通りやすさには違いがございます。弊社には元銀行員のスタッフも在籍しており、住宅ローン審査に精通しておりますので、どの金融機関が最適か、またお借入をどのようにおまとめするのが良いかといった点も含めて、丁寧にご案内させていただきます。また、弊社は宅建免許と建築免許の2つを持っているからこそ、審査を通すための独自のサポートも可能です。より具体的なお話をスムーズにできるかと思いますので、こちらからお電話を差し上げてもよろしいでしょうか。`;\n\
+          \  const TEXT_B2 = `数日の遅れでしたら、信用情報に影響していない可能性が高いのでご安心ください。ただ、お借入がある場合は審査がやや厳しくなることもございますが、銀行によって基準や通りやすさが異なります。弊社には元銀行員のスタッフも在籍しており、住宅ローン審査に精通しております。どの金融機関が最適か、またお借入のまとめ方なども含めて丁寧にご案内いたします。より具体的なお話をスムーズにできるかと思いますので、こちらからお電話を差し上げてもよろしいでしょうか？`;\n\
+          \  const TEXT_B3 = `ありがとうございます。住宅ローンの審査は、金融機関ごとに基準や考え方が異なるため、お客様のご状況によって通りやすさにも差が出てまいります。弊社には元銀行員のスタッフも在籍しており、住宅ローン審査に精通しておりますので、どの金融機関が合いそうか、どのような組み方がご希望条件に近いかといった点も含めて、丁寧にご案内させていただきます。文章でのやり取りよりもお電話で直接お話しした方が分かりやすい部分も多いため、差し支えなければこちらからお電話を差し上げてもよろしいでしょうか？`;\n\
+          \  const TEXT_C = `有難うございます。お手数をおかけしますが、担当の予定とすり合わせますのでいくつか候補日をいただけますと大変助かります！\n\
+          ◆電話相談の候補日\n【氏名（フルネーム）】\n【電話番号】\n【第1希望日時】◯月◯日、◯時◯分\n【第2希望日時】◯月◯日、◯時◯分\n【第3希望日時】◯月◯日、◯時◯分`;\n\
+          \n  const WELCOME_1 = `いえすまbyエルスタット。\n最適な進め方を案内するため、状況を整理したい（分かる範囲でOK、個人情報は不要）\n\
+          \n確認のため、下記を教えてください（分かる範囲で大丈夫です）`;\n  const WELCOME_FORM = `以下、分かる範囲でこの形式で回答してください（コピペして埋めてOK）\n\
+          - 都道府県：\n- 雇用形態：\n- 年収（万円）：\n- 借入件数（件）：\n- 借入総額（万円）：\n- 毎月の返済総額（万円）：\n-\
+          \ 返済遅延の有無（はい/いいえ/不明）：\n- 住宅ローン審査落ち経験（はい/いいえ/不明）：`;\n\n  const DELAY_FORM\
+          \ = `【遅延ありの場合のみ】差し支えない範囲で教えてください（コピペでOK）\n- 遅延回数：\n- 最長遅延期間：\n- 信用情報の確認有無（確認済み/未確認/不明）：\n\
+          - 債権異動の有無（あり/なし/不明）：\n- 債務整理/自己破産の有無（あり/なし/不明）：`;\n  const DEROG_FORM =\
+          \ `【債権異動（異動）がある場合】差し支えない範囲で教えてください（コピペでOK）\n- 発生年月（YYYY-MM）：\n- 返済状況（返済中/完済）：\n\
+          - 完済年月（YYYY-MM、完済の場合）：`;\n  const RESTRUCT_FORM = `【債務整理/自己破産がある場合】差し支えない範囲で教えてください（コピペでOK）\n\
+          - 実施年月（YYYY-MM）：\n- 返済状況（返済中/完済）：\n- 完済年月（YYYY-MM、完済の場合）：`;\n  const REJECT_FORM\
+          \ = `【過去に住宅ローン審査落ち経験がある場合】分かる範囲で教えてください（コピペでOK）\n- 金融機関名：\n- 審査名義（本人単独/本人＋配偶者/本人＋親など）：\n\
+          - 申込時年収（合算なら合算）：\n- 希望融資額：\n- 物件区分（戸建て/マンション）：\n- 物件情報（URL等）：`;\n\n  const\
+          \ CONFIRM_DONE = `ありがとうございます。\n担当の予定を確認しますので、少々お待ちください。`;\n\n  function\
+          \ safeJsonParse(s) {\n    try { return JSON.parse(s); } catch (e) { return\
+          \ {}; }\n  }\n\n  function normYesNo(v) {\n    const s = (v === null ||\
+          \ v === undefined) ? \"\" : String(v).trim();\n    if (!s) return \"\";\n\
+          \    if ([\"はい\",\"有\",\"あり\",\"ある\",\"Yes\",\"YES\",\"y\",\"Y\"].includes(s))\
+          \ return \"はい\";\n    if ([\"いいえ\",\"無\",\"なし\",\"ない\",\"No\",\"NO\",\"\
+          n\",\"N\"].includes(s)) return \"いいえ\";\n    if ([\"不明\",\"わからない\",\"分からない\"\
+          ,\"未確認\"].includes(s)) return \"不明\";\n    return s;\n  }\n\n  function\
+          \ normAgreeRefuse(v) {\n    const s = (v === null || v === undefined) ?\
+          \ \"\" : String(v).trim().toLowerCase();\n    if (!s) return \"\";\n   \
+          \ if ([\"agree\",\"ok\",\"yes\",\"y\"].includes(s)) return \"agree\";\n\
+          \    if ([\"refuse\",\"no\",\"ng\",\"n\"].includes(s)) return \"refuse\"\
+          ;\n    if ([\"unknown\"].includes(s)) return \"unknown\";\n    return \"\
+          \";\n  }\n\n  function isTruthyJa(v) {\n    const s = (v === null || v ===\
+          \ undefined) ? \"\" : String(v).trim();\n    if (!s) return false;\n   \
+          \ return [\"はい\",\"有\",\"あり\",\"ある\",\"agree\",\"ok\",\"YES\",\"Yes\",\"\
+          y\",\"Y\"].includes(s);\n  }\n\n  function looksLikeMinorDelinquency(slots)\
+          \ {\n    const maxp = (slots.delay_max_period || \"\").toString();\n   \
+          \ const cnt = (slots.delay_count || \"\").toString();\n    const minorMax\
+          \ = /2\\s*~\\s*3日|2\\s*[-〜]\\s*3日|数日|\\b1日\\b|\\b2日\\b|\\b3日\\b/.test(maxp);\n\
+          \    const minorCnt = /1回|2回|3回|2\\s*~\\s*3回|2\\s*[-〜]\\s*3回|少ない/.test(cnt);\n\
+          \    return minorMax && (minorCnt || !cnt);\n  }\n\n  function detectCallAgree(slots,\
+          \ extracted, q) {\n    const ci = normAgreeRefuse(extracted.call_intent\
+          \ || slots.call_intent || \"\");\n    if (ci === \"agree\") return true;\n\
+          \    if (ci === \"refuse\") return false;\n    // heuristic\n    const s\
+          \ = (q || \"\").toString();\n    if (/(電話|お電話)/.test(s) && /(大丈夫|可能|OK|お願いします|いいです|できます|希望)/.test(s))\
+          \ return true;\n    if (/(電話|お電話)/.test(s) && /(無理|できない|難しい|NG|嫌)/.test(s))\
+          \ return false;\n    if (/(第1希望|希望1|希望①|【第1希望|\\b1\\b.*希望)/.test(s)) return\
+          \ true;\n    if (/(\\d{2,4}[-ー]\\d{2,4}[-ー]\\d{3,4})/.test(s)) return true;\
+          \ // phone present\n    return false;\n  }\n\n  // parse extracted\n  const\
+          \ extracted = safeJsonParse(raw);\n\n  // merge slots (flat)\n  const slots\
+          \ = Object.assign({}, prevSlots, extracted);\n\n  // normalize key fields\n\
+          \  slots.has_delinquency = normYesNo(slots.has_delinquency);\n  slots.has_past_screening_failure\
+          \ = normYesNo(slots.has_past_screening_failure);\n\n  // allow has_derogatory/has_restructuring\
+          \ variants (はい/いいえ/不明 or あり/なし/不明)\n  // treat \"あり\" as true, \"なし\" as\
+          \ false\n  function normYesNoOrAriNashi(v) {\n    const s = (v === null\
+          \ || v === undefined) ? \"\" : String(v).trim();\n    if (!s) return \"\"\
+          ;\n    if ([\"あり\",\"有\",\"ある\"].includes(s)) return \"はい\";\n    if ([\"\
+          なし\",\"無\",\"ない\"].includes(s)) return \"いいえ\";\n    return normYesNo(s)\
+          \ || s;\n  }\n  slots.has_derogatory = normYesNoOrAriNashi(slots.has_derogatory);\n\
+          \  slots.has_restructuring = normYesNoOrAriNashi(slots.has_restructuring);\n\
+          \n  // -------- Phase requirements --------\n  const baseKeys = [\n    \"\
+          prefecture\",\n    \"employment_type\",\n    \"annual_income\",\n    \"\
+          loan_count\",\n    \"loan_total_amount\",\n    \"monthly_repayment_total\"\
+          ,\n    \"has_delinquency\",\n    \"has_past_screening_failure\"\n  ];\n\n\
+          \  function isEmpty(v) {\n    return v === undefined || v === null || String(v).trim()\
+          \ === \"\";\n  }\n\n  const missingBase = baseKeys.filter(k => isEmpty(slots[k]));\n\
+          \n  // Phase2: determine which deep-dive group to ask next (one format per\
+          \ turn)\n  function needsDelayDetail() {\n    if (slots.has_delinquency\
+          \ !== \"はい\") return false;\n    const keys = [\"delay_count\",\"delay_max_period\"\
+          ,\"credit_info_checked\",\"has_derogatory\",\"has_restructuring\"];\n  \
+          \  return keys.some(k => isEmpty(slots[k]));\n  }\n\n  function needsDerogDetail()\
+          \ {\n    if (slots.has_derogatory !== \"はい\") return false;\n    const keys\
+          \ = [\"derogatory_start_ym\",\"derogatory_repay_status\"];\n    if (keys.some(k\
+          \ => isEmpty(slots[k]))) return true;\n    // if 完済 then finish required\n\
+          \    if ((slots.derogatory_repay_status || \"\").toString().includes(\"\
+          完済\") && isEmpty(slots.derogatory_finish_ym)) return true;\n    return false;\n\
+          \  }\n\n  function needsRestructDetail() {\n    if (slots.has_restructuring\
+          \ !== \"はい\") return false;\n    const keys = [\"restructuring_start_ym\"\
+          ,\"restructuring_repay_status\"];\n    if (keys.some(k => isEmpty(slots[k])))\
+          \ return true;\n    if ((slots.restructuring_repay_status || \"\").toString().includes(\"\
+          完済\") && isEmpty(slots.restructuring_finish_ym)) return true;\n    return\
+          \ false;\n  }\n\n  function needsRejectDetail() {\n    if (slots.has_past_screening_failure\
+          \ !== \"はい\") return false;\n    const keys = [\"screening_bank_name\",\"\
+          screening_applicant_type\",\"screening_income_at_apply\",\"desired_loan_amount\"\
+          ,\"property_type\",\"property_info\"];\n    return keys.some(k => isEmpty(slots[k]));\n\
+          \  }\n\n  // Schedule fields (Phase5)\n  function needsSchedule() {\n  \
+          \  const required = [\"schedule_full_name\",\"schedule_phone\",\"schedule_dt1\"\
+          ];\n    return required.some(k => isEmpty(slots[k]));\n  }\n\n  let replyText\
+          \ = \"\";\n  let nextState = state;\n\n  // ------------------ State Machine\
+          \ (Phase1-5) ------------------\n  // PH1_COMMON: ask base form until complete\n\
+          \  if (state === \"PH1_COMMON\") {\n    if (missingBase.length > 0) {\n\
+          \      replyText = WELCOME_1 + \"\\n[[SPLIT]]\\n\" + WELCOME_FORM;\n   \
+          \   nextState = \"PH1_COMMON\"; // stay until base filled\n    } else {\n\
+          \      // base complete -> go Phase2 if any branch trigger else Phase3\n\
+          \      nextState = \"PH2_BRANCH\";\n    }\n  }\n\n  // PH2_BRANCH: collect\
+          \ deep-dive slots if triggered\n  if (nextState === \"PH2_BRANCH\") {\n\
+          \    // If base missing, fallback to Phase1\n    if (missingBase.length\
+          \ > 0) {\n      replyText = WELCOME_1 + \"\\n[[SPLIT]]\\n\" + WELCOME_FORM;\n\
+          \      nextState = \"PH1_COMMON\";\n    } else if (needsDelayDetail()) {\n\
+          \      replyText = \"ありがとうございます。\\n\" + DELAY_FORM;\n      nextState = \"\
+          PH2_BRANCH\";\n    } else if (needsDerogDetail()) {\n      replyText = \"\
+          ありがとうございます。\\n\" + DEROG_FORM;\n      nextState = \"PH2_BRANCH\";\n    }\
+          \ else if (needsRestructDetail()) {\n      replyText = \"ありがとうございます。\\n\"\
+          \ + RESTRUCT_FORM;\n      nextState = \"PH2_BRANCH\";\n    } else if (needsRejectDetail())\
+          \ {\n      replyText = \"ありがとうございます。\\n\" + REJECT_FORM;\n      nextState\
+          \ = \"PH2_BRANCH\";\n    } else {\n      // all required deep slots collected\
+          \ -> Phase3\n      replyText = TEXT_A;\n      nextState = \"PH3_WAIT_ANXIETY\"\
+          ;\n    }\n  }\n\n  // PH3_WAIT_ANXIETY: wait for user's anxiety/honest concerns\n\
+          \  if (state === \"PH3_WAIT_ANXIETY\") {\n    // user replied -> store anxiety\
+          \ text and move to Phase4 output\n    if (!isEmpty(query)) {\n      slots.anxiety_text\
+          \ = query;\n      // choose B template\n      const hasStrongNeg = (slots.has_delinquency\
+          \ === \"はい\") || (slots.has_past_screening_failure === \"はい\") || (slots.has_derogatory\
+          \ === \"はい\") || (slots.has_restructuring === \"はい\");\n      if (slots.has_delinquency\
+          \ === \"はい\" && looksLikeMinorDelinquency(slots)) {\n        replyText =\
+          \ TEXT_B2;\n      } else if (hasStrongNeg) {\n        replyText = TEXT_B1;\n\
+          \      } else {\n        replyText = TEXT_B3;\n      }\n      nextState\
+          \ = \"PH4_WAIT_CALL_AGREE\";\n    } else {\n      // if somehow empty input,\
+          \ re-ask A (keep)\n      replyText = TEXT_A;\n      nextState = \"PH3_WAIT_ANXIETY\"\
+          ;\n    }\n  }\n\n  // PH4_WAIT_CALL_AGREE: wait for call agreement\n  if\
+          \ (state === \"PH4_WAIT_CALL_AGREE\") {\n    const agree = detectCallAgree(slots,\
+          \ extracted, query);\n    if (agree) {\n      replyText = TEXT_C;\n    \
+          \  nextState = \"PH5_WAIT_SCHEDULE\";\n    } else if (agree === false &&\
+          \ /(電話|お電話)/.test(query)) {\n      // explicit refuse\n      replyText =\
+          \ \"承知いたしました。\\nお電話が難しい場合は、LINE上で進めることも可能です。\\n差し支えなければ、いま一番不安な点（1つでOK）を教えていただけますか？\"\
+          ;\n      nextState = \"PH3_WAIT_ANXIETY\";\n    } else {\n      // still\
+          \ waiting\n      // re-ask softly\n      replyText = \"差し支えなければ、こちらからお電話を差し上げてもよろしいでしょうか？\\\
+          n（難しければLINEで進める形でも問題ありません）\";\n      nextState = \"PH4_WAIT_CALL_AGREE\"\
+          ;\n    }\n  }\n\n  // PH5_WAIT_SCHEDULE: collect schedule details\n  if\
+          \ (state === \"PH5_WAIT_SCHEDULE\") {\n    if (needsSchedule()) {\n    \
+          \  replyText = TEXT_C; // ask again with the same template\n      nextState\
+          \ = \"PH5_WAIT_SCHEDULE\";\n    } else {\n      replyText = CONFIRM_DONE;\n\
+          \      nextState = \"DONE\";\n    }\n  }\n\n  // DONE: keep confirming\n\
+          \  if (state === \"DONE\") {\n    replyText = CONFIRM_DONE;\n    nextState\
+          \ = \"DONE\";\n  }\n\n  return {\n    reply_text: replyText,\n    next_state:\
+          \ nextState,\n    next_slots: slots\n  };\n}"
+        code_language: javascript
+        outputs:
+          next_slots:
+            children: null
+            type: object
+          next_state:
+            children: null
+            type: string
+          reply_text:
+            children: null
+            type: string
+        selected: false
+        title: CODE__PHASE_MANAGER_RENDER
+        type: code
+        variables:
+        - value_selector:
+          - sys
+          - query
+          value_type: string
+          variable: query
+        - value_selector:
+          - '1900000100002'
+          - text
+          value_type: string
+          variable: llm_json_text
+        - value_selector:
+          - conversation
+          - cv_state
+          value_type: string
+          variable: cv_state
+        - value_selector:
+          - conversation
+          - cv_slots
+          value_type: object
+          variable: cv_slots
+      height: 52
+      id: '1900000100003'
+      position:
+        x: 740
+        y: 0
+      positionAbsolute:
+        x: 740
+        y: 0
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        items:
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1900000100003'
+          - next_state
+          variable_selector:
+          - conversation
+          - cv_state
+          write_mode: over-write
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1900000100003'
+          - next_slots
+          variable_selector:
+          - conversation
+          - cv_slots
+          write_mode: over-write
+        selected: false
+        title: SAVE__cv_state_cv_slots
+        type: assigner
+        version: '2'
+      height: 110
+      id: '1900000100004'
+      position:
+        x: 1200
+        y: 0
+      positionAbsolute:
+        x: 1200
+        y: 0
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: '{{#1900000100003.reply_text#}}'
+        selected: false
+        title: REPLY
+        type: answer
+        variables: []
+      height: 103
+      id: '1900000100005'
+      position:
+        x: 1560
+        y: 0
+      positionAbsolute:
+        x: 1560
+        y: 0
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    viewport:
+      x: 116.47286839178776
+      y: 452.8953948439254
+      zoom: 0.8404798029111368
+  rag_pipeline_variables: []

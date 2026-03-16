@@ -1,0 +1,451 @@
+app:
+  description: 民泊問い合わせワークフロー（空室確認・予約受付・アポ獲得）
+  icon: 🏨
+  icon_background: '#FDEBD0'
+  mode: advanced-chat
+  name: いえすまLINE_民泊問い合わせ_v1.0.0
+  use_icon_as_answer_icon: false
+
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/openai:0.2.8@aae2be0913b8c6f0b80cff58e08d7a8b4c214569b41778413fcaea204561ff16
+    version: null
+
+kind: app
+version: 0.6.0
+
+workflow:
+  conversation_variables:
+  - description: 民泊予約のスロット変数
+    id: cv_slots_mp
+    name: cv_slots
+    selector:
+    - conversation
+    - cv_slots
+    value: {}
+    value_type: object
+  - description: 予約フェーズ管理
+    id: cv_state_mp
+    name: cv_state
+    selector:
+    - conversation
+    - cv_state
+    value: ''
+    value_type: string
+
+  environment_variables: []
+
+  features:
+    file_upload:
+      enabled: false
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+
+  graph:
+    edges:
+    - data:
+        isInLoop: false
+        sourceType: start
+        targetType: llm
+      id: mp-start-source-llm-target
+      selected: false
+      source: mp-node-start
+      sourceHandle: source
+      target: mp-node-llm-extract
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: mp-llm-source-code-target
+      selected: false
+      source: mp-node-llm-extract
+      sourceHandle: source
+      target: mp-node-parse-json
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: assigner
+      id: mp-code-source-assigner-target
+      selected: false
+      source: mp-node-parse-json
+      sourceHandle: source
+      target: mp-node-assign-slots
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: assigner
+        targetType: if-else
+      id: mp-assigner-source-avail-check
+      selected: false
+      source: mp-node-assign-slots
+      sourceHandle: source
+      target: mp-node-availability-check
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: mp-available-llm-target
+      selected: false
+      source: mp-node-availability-check
+      sourceHandle: mp-available-case
+      target: mp-node-llm-reply-available
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: mp-unavailable-llm-target
+      selected: false
+      source: mp-node-availability-check
+      sourceHandle: 'false'
+      target: mp-node-llm-reply-unavailable
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: answer
+      id: mp-reply-available-answer
+      selected: false
+      source: mp-node-llm-reply-available
+      sourceHandle: source
+      target: mp-node-answer
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: answer
+      id: mp-reply-unavailable-answer
+      selected: false
+      source: mp-node-llm-reply-unavailable
+      sourceHandle: source
+      target: mp-node-answer
+      targetHandle: target
+      type: custom
+      zIndex: 0
+
+    nodes:
+    - data:
+        selected: false
+        title: ユーザー入力
+        type: start
+        variables: []
+      height: 73
+      id: mp-node-start
+      position:
+        x: 0
+        y: 200
+      positionAbsolute:
+        x: 0
+        y: 200
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        memory:
+          enabled: false
+          window:
+            enabled: false
+            size: 10
+        model:
+          completion_params:
+            temperature: 0.2
+          mode: chat
+          name: gpt-4o-mini
+          provider: langgenius/openai/openai
+        prompt_template:
+        - id: mp-system-extract
+          role: system
+          text: |
+            民泊予約問い合わせの情報をJSON形式で抽出してください。
+
+            【抽出キー】
+            - checkin_date: チェックイン日（YYYY-MM-DD）
+            - checkout_date: チェックアウト日（YYYY-MM-DD）
+            - guest_count: 人数
+            - guest_name: 代表者名
+            - contact: 連絡先（電話/メール）
+            - special_requests: 特別要望
+
+            【ルール】
+            - 出力はJSONのみ
+            - 不明・未記載は空文字 "" にする
+        selected: false
+        title: 予約情報抽出LLM
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 140
+      id: mp-node-llm-extract
+      position:
+        x: 300
+        y: 200
+      positionAbsolute:
+        x: 300
+        y: 200
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+
+    - data:
+        code: |
+          import json
+          def main(llm_output: str) -> dict:
+              try:
+                  text = llm_output.strip()
+                  if text.startswith("```"):
+                      lines = text.split("\n")
+                      text = "\n".join(lines[1:-1])
+                  parsed = json.loads(text)
+                  checkin = parsed.get("checkin_date", "")
+                  checkout = parsed.get("checkout_date", "")
+                  is_available = bool(checkin and checkout)
+                  parsed["is_date_specified"] = is_available
+                  return {
+                      "slots_json": json.dumps(parsed, ensure_ascii=False),
+                      "is_date_specified": str(is_available).lower()
+                  }
+              except Exception as e:
+                  return {"slots_json": "{}", "is_date_specified": "false"}
+        code_language: python3
+        outputs:
+          slots_json:
+            children: null
+            type: string
+          is_date_specified:
+            children: null
+            type: string
+        selected: false
+        title: JSONパース＆日付判定
+        type: code
+        variables:
+        - value_selector:
+          - mp-node-llm-extract
+          - text
+          variable: llm_output
+      height: 107
+      id: mp-node-parse-json
+      position:
+        x: 600
+        y: 200
+      positionAbsolute:
+        x: 600
+        y: 200
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+
+    - data:
+        actions:
+        - operation: set
+          value: '{{#mp-node-parse-json.slots_json#}}'
+          variable_selector:
+          - conversation
+          - cv_slots
+        selected: false
+        title: スロット保存
+        type: assigner
+      height: 73
+      id: mp-node-assign-slots
+      position:
+        x: 900
+        y: 200
+      positionAbsolute:
+        x: 900
+        y: 200
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+
+    - data:
+        cases:
+        - case_id: mp-available-case
+          conditions:
+          - comparison_operator: is
+            id: mp-cond-date
+            value: 'true'
+            varType: string
+            variable_selector:
+            - mp-node-parse-json
+            - is_date_specified
+          logical_operator: and
+        selected: false
+        title: 日程指定済み判定
+        type: if-else
+      height: 120
+      id: mp-node-availability-check
+      position:
+        x: 1200
+        y: 200
+      positionAbsolute:
+        x: 1200
+        y: 200
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        memory:
+          enabled: true
+          window:
+            enabled: true
+            size: 5
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gpt-4o-mini
+          provider: langgenius/openai/openai
+        prompt_template:
+        - id: mp-system-reply-available
+          role: system
+          text: |
+            民泊の問い合わせAIです。
+            日程が確認できました。以下の情報で予約確認を進めます。
+
+            【予約情報】
+            {{#conversation.cv_slots#}}
+
+            日程の空き確認中です。担当者が折り返しご連絡します。
+            ご連絡先の確認と、特別なご要望があればお知らせください。
+        selected: false
+        title: 予約確認応答LLM
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 140
+      id: mp-node-llm-reply-available
+      position:
+        x: 1500
+        y: 100
+      positionAbsolute:
+        x: 1500
+        y: 100
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        memory:
+          enabled: true
+          window:
+            enabled: true
+            size: 5
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gpt-4o-mini
+          provider: langgenius/openai/openai
+        prompt_template:
+        - id: mp-system-reply-unavailable
+          role: system
+          text: |
+            民泊の問い合わせAIです。
+            ご希望の宿泊日程をお伺いできていません。
+
+            チェックイン日・チェックアウト日・人数をお知らせください。
+        selected: false
+        title: 日程確認応答LLM
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 140
+      id: mp-node-llm-reply-unavailable
+      position:
+        x: 1500
+        y: 300
+      positionAbsolute:
+        x: 1500
+        y: 300
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+
+    - data:
+        answer: '{{#mp-node-llm-reply-available.text#}}{{#mp-node-llm-reply-unavailable.text#}}'
+        selected: false
+        title: 回答出力
+        type: answer
+        variables: []
+      height: 107
+      id: mp-node-answer
+      position:
+        x: 1800
+        y: 200
+      positionAbsolute:
+        x: 1800
+        y: 200
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242

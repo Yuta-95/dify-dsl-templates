@@ -1,0 +1,24 @@
+---
+extends: default
+
+rules:
+  # Dify DSLのインデントはPythonパーサーで検証するためyamllintでは無効化
+  indentation: disable
+  # 長い行を許容（プロンプトが長い場合があるため）
+  line-length:
+    max: 500
+    level: warning
+  # Dify DSLはドキュメント開始マーカーなし
+  document-start: disable
+  # YAMLのtruthy値（true/false以外）を許容
+  truthy:
+    allowed-values: ['true', 'false', 'yes', 'no']
+    check-keys: false
+  # コメント後のスペースを緩和
+  comments:
+    min-spaces-from-content: 1
+  # 空行を緩和
+  empty-lines:
+    max: 3
+    max-start: 1
+    max-end: 1

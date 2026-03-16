@@ -1,0 +1,159 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "dify-workflow.base.schema.json",
+  "title": "Dify Workflow DSL Base Schema (v0.6.0)",
+  "description": "Dify v0.6.0 advanced-chat / workflow アプリのDSL基本スキーマ",
+  "type": "object",
+  "required": ["app", "kind", "version", "workflow"],
+  "properties": {
+    "app": {
+      "type": "object",
+      "required": ["name", "mode"],
+      "properties": {
+        "name": { "type": "string", "description": "アプリ名" },
+        "description": { "type": "string" },
+        "icon": { "type": "string" },
+        "icon_background": { "type": "string" },
+        "mode": {
+          "type": "string",
+          "enum": ["advanced-chat", "workflow", "chat", "completion"],
+          "description": "アプリモード"
+        },
+        "use_icon_as_answer_icon": { "type": "boolean" }
+      }
+    },
+    "kind": {
+      "type": "string",
+      "enum": ["app"],
+      "description": "リソース種別（常に 'app'）"
+    },
+    "version": {
+      "type": "string",
+      "description": "Dify DSLバージョン（例: 0.6.0）"
+    },
+    "dependencies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": { "type": "string" },
+          "value": { "type": "object" }
+        }
+      }
+    },
+    "workflow": {
+      "type": "object",
+      "required": ["graph"],
+      "properties": {
+        "conversation_variables": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "name", "value_type"],
+            "properties": {
+              "id": { "type": "string" },
+              "name": { "type": "string" },
+              "description": { "type": "string" },
+              "value_type": {
+                "type": "string",
+                "enum": ["string", "number", "boolean", "object", "array"]
+              },
+              "value": {}
+            }
+          }
+        },
+        "environment_variables": {
+          "type": "array",
+          "items": { "type": "object" }
+        },
+        "features": {
+          "type": "object",
+          "properties": {
+            "file_upload": { "type": "object" },
+            "opening_statement": { "type": "string" },
+            "retriever_resource": { "type": "object" },
+            "sensitive_word_avoidance": { "type": "object" },
+            "speech_to_text": { "type": "object" },
+            "suggested_questions": { "type": "array" },
+            "suggested_questions_after_answer": { "type": "object" },
+            "text_to_speech": { "type": "object" }
+          }
+        },
+        "graph": {
+          "type": "object",
+          "required": ["edges", "nodes"],
+          "properties": {
+            "edges": {
+              "type": "array",
+              "description": "ノード間の接続定義",
+              "items": {
+                "type": "object",
+                "required": ["id", "source", "target"],
+                "properties": {
+                  "id": { "type": "string" },
+                  "source": { "type": "string" },
+                  "sourceHandle": { "type": "string" },
+                  "target": { "type": "string" },
+                  "targetHandle": { "type": "string" },
+                  "type": { "type": "string" },
+                  "selected": { "type": "boolean" },
+                  "zIndex": { "type": "number" },
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "isInLoop": { "type": "boolean" },
+                      "sourceType": { "type": "string" },
+                      "targetType": { "type": "string" }
+                    }
+                  }
+                }
+              }
+            },
+            "nodes": {
+              "type": "array",
+              "minItems": 2,
+              "description": "ワークフローノード定義",
+              "items": {
+                "type": "object",
+                "required": ["id", "type", "data"],
+                "properties": {
+                  "id": { "type": "string" },
+                  "type": {
+                    "type": "string",
+                    "enum": ["custom"]
+                  },
+                  "data": {
+                    "type": "object",
+                    "required": ["type"],
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "start", "end", "answer", "llm", "code",
+                          "if-else", "assigner", "tool", "knowledge-retrieval",
+                          "http-request", "template-transform", "variable-aggregator",
+                          "loop", "iteration", "parameter-extractor"
+                        ]
+                      },
+                      "title": { "type": "string" },
+                      "selected": { "type": "boolean" }
+                    }
+                  },
+                  "position": {
+                    "type": "object",
+                    "properties": {
+                      "x": { "type": "number" },
+                      "y": { "type": "number" }
+                    }
+                  },
+                  "width": { "type": "number" },
+                  "height": { "type": "number" }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

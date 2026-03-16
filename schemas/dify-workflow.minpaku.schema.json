@@ -1,0 +1,8 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "dify-workflow.minpaku.schema.json",
+  "title": "Dify 民泊問い合わせワークフロー スキーマ",
+  "allOf": [
+    { "$ref": "dify-workflow.base.schema.json" }
+  ]
+}

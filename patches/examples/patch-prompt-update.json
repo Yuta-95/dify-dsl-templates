@@ -1,0 +1,11 @@
+{
+  "_comment": "プロンプト修正パッチのサンプル。merge-patch.shで適用する。",
+  "_usage": "./scripts/merge-patch.sh templates/housing-loan/housing-loan-v1.0.0.yaml patches/examples/patch-prompt-update.json > output.yaml",
+  "operations": [
+    {
+      "path": "app.description",
+      "op": "replace",
+      "value": "住宅ローン相談ワークフロー v1.1.0（プロンプト改善版）"
+    }
+  ]
+}

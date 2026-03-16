@@ -1,0 +1,81 @@
+name: 週次バリデーションレポート生成
+
+on:
+  schedule:
+    - cron: '0 7 * * 5'  # 毎週金曜日 16:00 JST (UTC 07:00)
+  workflow_dispatch:       # 手動実行も可能
+
+jobs:
+  generate-report:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: リポジトリをチェックアウト
+        uses: actions/checkout@v4
+
+      - name: Python セットアップ
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 依存ツールをインストール
+        run: pip install pyyaml jsonschema networkx yamllint
+
+      - name: スクリプトに実行権限を付与
+        run: chmod +x scripts/*.sh
+
+      - name: 全テンプレを検証してレポートを生成
+        run: |
+          DATE=$(date '+%Y-%m-%d %H:%M JST')
+          REPORT="# DSL 検証レポート\n\n**生成日時**: $DATE\n\n"
+
+          TOTAL=0
+          PASSED=0
+          FAILED=0
+          WARNINGS=0
+
+          REPORT="${REPORT}## テンプレ別検証結果\n\n"
+          REPORT="${REPORT}| ファイル | 結果 | 備考 |\n|---|---|---|\n"
+
+          for file in $(find templates -name "*.yaml" -o -name "*.yml" | sort); do
+            TOTAL=$((TOTAL + 1))
+            OUTPUT=$(bash scripts/validate-dsl.sh "$file" 2>&1)
+            EXIT=$?
+
+            if [ $EXIT -eq 0 ]; then
+              PASSED=$((PASSED + 1))
+              WARN_COUNT=$(echo "$OUTPUT" | grep -c "⚠️" || true)
+              if [ "$WARN_COUNT" -gt 0 ]; then
+                WARNINGS=$((WARNINGS + WARN_COUNT))
+                REPORT="${REPORT}| \`$file\` | ✅ PASS | ⚠️ 警告${WARN_COUNT}件 |\n"
+              else
+                REPORT="${REPORT}| \`$file\` | ✅ PASS | - |\n"
+              fi
+            else
+              FAILED=$((FAILED + 1))
+              ERROR=$(echo "$OUTPUT" | grep "❌" | head -1)
+              REPORT="${REPORT}| \`$file\` | ❌ FAIL | $ERROR |\n"
+            fi
+          done
+
+          REPORT="${REPORT}\n## サマリー\n\n"
+          REPORT="${REPORT}| 項目 | 数値 |\n|---|---|\n"
+          REPORT="${REPORT}| 総ファイル数 | ${TOTAL} |\n"
+          REPORT="${REPORT}| PASS | ${PASSED} |\n"
+          REPORT="${REPORT}| FAIL | ${FAILED} |\n"
+          REPORT="${REPORT}| 警告 | ${WARNINGS} |\n"
+
+          echo -e "$REPORT" > validation_weekly_report.md
+          echo "レポート生成完了"
+          cat validation_weekly_report.md
+
+      - name: レポートをコミット
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add validation_weekly_report.md
+          git diff --staged --quiet || \
+            git commit -m "chore: 週次DSL検証レポートを更新 ($(date '+%Y-%m-%d'))"
+          git push

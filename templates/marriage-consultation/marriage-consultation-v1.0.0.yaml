@@ -1,0 +1,350 @@
+app:
+  description: 結婚相談所問い合わせワークフロー（プロフィール回収・マッチング提案・面談アポ獲得）
+  icon: 💍
+  icon_background: '#FCF3CF'
+  mode: advanced-chat
+  name: いえすまLINE_結婚相談所_v1.0.0
+  use_icon_as_answer_icon: false
+
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/openai:0.2.8@aae2be0913b8c6f0b80cff58e08d7a8b4c214569b41778413fcaea204561ff16
+    version: null
+
+kind: app
+version: 0.6.0
+
+workflow:
+  conversation_variables:
+  - description: 結婚相談のスロット変数（プロフィール・希望条件等）
+    id: cv_slots_mc
+    name: cv_slots
+    selector:
+    - conversation
+    - cv_slots
+    value: {}
+    value_type: object
+  - description: 相談フェーズ管理（profile/matching/appointment/done）
+    id: cv_state_mc
+    name: cv_state
+    selector:
+    - conversation
+    - cv_state
+    value: ''
+    value_type: string
+
+  environment_variables: []
+
+  features:
+    file_upload:
+      enabled: false
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+
+  graph:
+    edges:
+    - data:
+        isInLoop: false
+        sourceType: start
+        targetType: llm
+      id: mc-start-source-llm-target
+      selected: false
+      source: mc-node-start
+      sourceHandle: source
+      target: mc-node-llm-extract
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: mc-llm-source-code-target
+      selected: false
+      source: mc-node-llm-extract
+      sourceHandle: source
+      target: mc-node-parse-json
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: assigner
+      id: mc-code-source-assigner-target
+      selected: false
+      source: mc-node-parse-json
+      sourceHandle: source
+      target: mc-node-assign-slots
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: assigner
+        targetType: llm
+      id: mc-assigner-source-reply-target
+      selected: false
+      source: mc-node-assign-slots
+      sourceHandle: source
+      target: mc-node-llm-reply
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: answer
+      id: mc-reply-source-answer-target
+      selected: false
+      source: mc-node-llm-reply
+      sourceHandle: source
+      target: mc-node-answer
+      targetHandle: target
+      type: custom
+      zIndex: 0
+
+    nodes:
+    - data:
+        selected: false
+        title: ユーザー入力
+        type: start
+        variables: []
+      height: 73
+      id: mc-node-start
+      position:
+        x: 0
+        y: 200
+      positionAbsolute:
+        x: 0
+        y: 200
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        memory:
+          enabled: false
+          window:
+            enabled: false
+            size: 10
+        model:
+          completion_params:
+            temperature: 0.2
+          mode: chat
+          name: gpt-4o-mini
+          provider: langgenius/openai/openai
+        prompt_template:
+        - id: mc-system-extract
+          role: system
+          text: |
+            結婚相談所のプロフィール情報をJSON形式で抽出してください。
+
+            【抽出キー】
+            - age: 年齢
+            - gender: 性別（男性/女性/その他）
+            - occupation: 職業
+            - annual_income: 年収
+            - location: 居住地
+            - desired_age_range: 希望相手年齢（例: "25-35歳"）
+            - desired_location: 希望相手居住地
+            - marriage_timing: 結婚希望時期
+            - special_notes: 特記事項・重視する点
+
+            【ルール】
+            - 出力はJSONのみ
+            - 不明・未記載は空文字 "" にする
+        selected: false
+        title: プロフィール抽出LLM
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 140
+      id: mc-node-llm-extract
+      position:
+        x: 300
+        y: 200
+      positionAbsolute:
+        x: 300
+        y: 200
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+
+    - data:
+        code: |
+          import json
+          def main(llm_output: str) -> dict:
+              try:
+                  text = llm_output.strip()
+                  if text.startswith("```"):
+                      lines = text.split("\n")
+                      text = "\n".join(lines[1:-1])
+                  parsed = json.loads(text)
+                  filled = sum(1 for v in parsed.values() if v)
+                  total = len(parsed)
+                  return {
+                      "slots_json": json.dumps(parsed, ensure_ascii=False),
+                      "fill_rate": str(filled),
+                      "total_fields": str(total)
+                  }
+              except Exception as e:
+                  return {"slots_json": "{}", "fill_rate": "0", "total_fields": "9"}
+        code_language: python3
+        outputs:
+          slots_json:
+            children: null
+            type: string
+          fill_rate:
+            children: null
+            type: string
+          total_fields:
+            children: null
+            type: string
+        selected: false
+        title: JSONパース＆充足率計算
+        type: code
+        variables:
+        - value_selector:
+          - mc-node-llm-extract
+          - text
+          variable: llm_output
+      height: 107
+      id: mc-node-parse-json
+      position:
+        x: 600
+        y: 200
+      positionAbsolute:
+        x: 600
+        y: 200
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+
+    - data:
+        actions:
+        - operation: set
+          value: '{{#mc-node-parse-json.slots_json#}}'
+          variable_selector:
+          - conversation
+          - cv_slots
+        selected: false
+        title: スロット保存
+        type: assigner
+      height: 73
+      id: mc-node-assign-slots
+      position:
+        x: 900
+        y: 200
+      positionAbsolute:
+        x: 900
+        y: 200
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        memory:
+          enabled: true
+          window:
+            enabled: true
+            size: 10
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gpt-4o-mini
+          provider: langgenius/openai/openai
+        prompt_template:
+        - id: mc-system-reply
+          role: system
+          text: |
+            あなたは結婚相談所のカウンセラーAIです。
+
+            【現在のプロフィール情報】
+            {{#conversation.cv_slots#}}
+
+            【対応ルール】
+            - プロフィールに不足情報があれば、自然に1つずつ確認する
+            - プロフィールが揃ったら「担当カウンセラーとのご面談をご提案」する
+            - 常に温かく、誠実なトーンで対応する
+            - プライバシーに十分配慮する
+        selected: false
+        title: カウンセラー応答LLM
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 140
+      id: mc-node-llm-reply
+      position:
+        x: 1200
+        y: 200
+      positionAbsolute:
+        x: 1200
+        y: 200
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+
+    - data:
+        answer: '{{#mc-node-llm-reply.text#}}'
+        selected: false
+        title: 回答出力
+        type: answer
+        variables: []
+      height: 107
+      id: mc-node-answer
+      position:
+        x: 1500
+        y: 200
+      positionAbsolute:
+        x: 1500
+        y: 200
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242

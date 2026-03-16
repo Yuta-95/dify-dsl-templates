@@ -1,0 +1,8 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "dify-workflow.marriage-consultation.schema.json",
+  "title": "Dify 結婚相談所ワークフロー スキーマ",
+  "allOf": [
+    { "$ref": "dify-workflow.base.schema.json" }
+  ]
+}

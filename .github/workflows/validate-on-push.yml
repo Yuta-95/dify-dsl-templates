@@ -1,0 +1,68 @@
+name: Validate DSL on Push
+
+on:
+  push:
+    paths:
+      - 'templates/**/*.yaml'
+      - 'templates/**/*.yml'
+      - 'schemas/**/*.json'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: リポジトリをチェックアウト
+        uses: actions/checkout@v4
+
+      - name: Python セットアップ
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 依存ツールをインストール
+        run: |
+          pip install pyyaml jsonschema networkx yamllint
+          echo "✅ Pythonパッケージインストール完了"
+
+      - name: スクリプトに実行権限を付与
+        run: chmod +x scripts/*.sh
+
+      - name: 変更されたテンプレをすべて検証
+        run: |
+          FAILED=0
+          PASSED=0
+
+          for file in $(find templates -name "*.yaml" -o -name "*.yml" | grep -v base); do
+            echo ""
+            echo "🔍 検証中: $file"
+            if bash scripts/validate-dsl.sh "$file"; then
+              PASSED=$((PASSED + 1))
+            else
+              FAILED=$((FAILED + 1))
+            fi
+          done
+
+          echo ""
+          echo "=================================="
+          echo "  検証結果: PASS=$PASSED / FAIL=$FAILED"
+          echo "=================================="
+
+          if [ $FAILED -gt 0 ]; then
+            echo "❌ ${FAILED}件の検証が失敗しました"
+            exit 1
+          else
+            echo "✅ すべての検証に合格しました"
+          fi
+
+      - name: 検証失敗時にコメントを追加
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.repos.createCommitComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              commit_sha: context.sha,
+              body: '❌ DSL検証が失敗しました。\n\nローカルで `./scripts/validate-dsl.sh <ファイル>` を実行して修正してください。\n詳細は `docs/06_TroubleshootingGuide.md` を参照。'
+            })

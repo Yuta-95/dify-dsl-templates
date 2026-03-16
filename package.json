@@ -1,0 +1,15 @@
+{
+  "name": "dify-dsl-validator",
+  "version": "1.0.0",
+  "description": "Dify DSL 検証ツール群（いえすま開発基盤）",
+  "scripts": {
+    "validate": "bash scripts/validate-dsl.sh",
+    "install-tools": "bash scripts/install-tools.sh"
+  },
+  "dependencies": {
+    "ajv-cli": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

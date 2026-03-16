@@ -1,0 +1,4 @@
+pyyaml>=6.0
+jsonschema>=4.20.0
+networkx>=3.2
+yamllint>=1.33.0

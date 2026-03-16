@@ -1,0 +1,37 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "dify-workflow.line-concierge.schema.json",
+  "title": "Dify LINE受付コンシェルジュ スキーマ",
+  "description": "LINEコンシェルジュ系ワークフロー（住宅ローン・スロット回収・アポ獲得）の拡張スキーマ",
+  "allOf": [
+    { "$ref": "dify-workflow.base.schema.json" },
+    {
+      "type": "object",
+      "properties": {
+        "app": {
+          "type": "object",
+          "properties": {
+            "mode": {
+              "const": "advanced-chat"
+            }
+          }
+        },
+        "workflow": {
+          "type": "object",
+          "properties": {
+            "conversation_variables": {
+              "type": "array",
+              "description": "LINE会話で使うスロット変数（cv_slots, cv_stateは必須）",
+              "contains": {
+                "type": "object",
+                "properties": {
+                  "name": { "enum": ["cv_slots", "cv_state"] }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

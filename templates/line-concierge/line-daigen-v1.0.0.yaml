@@ -1,0 +1,5015 @@
+app:
+  description: Excelマニュアル準拠（テンプレ辞書反映）・大元DSL
+  icon: 🤖
+  icon_background: '#D5F5F6'
+  mode: advanced-chat
+  name: いえすまLINE対応_大元_v1
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/openai:0.2.8@aae2be0913b8c6f0b80cff58e08d7a8b4c214569b41778413fcaea204561ff16
+    version: null
+kind: app
+version: 0.6.0
+workflow:
+  conversation_variables:
+  - description: ''
+    id: cff00dbe-7b2c-4f47-9c75-89ad5cd4d394
+    name: cv_slots
+    selector:
+    - conversation
+    - cv_slots
+    value: {}
+    value_type: object
+  - description: ''
+    id: 8d440c84-2891-4cd8-b4e5-4f1dd373d124
+    name: cv_state
+    selector:
+    - conversation
+    - cv_state
+    value: ''
+    value_type: string
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        attachment_image_file_size_limit: 2
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        file_upload_limit: 50
+        image_file_batch_limit: 10
+        image_file_size_limit: 10
+        single_chunk_attachment_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInLoop: false
+        sourceType: start
+        targetType: if-else
+      id: 1900000000001-source-1900000000002-target
+      selected: false
+      source: '1900000000001'
+      sourceHandle: source
+      target: '1900000000002'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1900000000002-bd96b567-be46-4547-8fa5-50649a0b1d4c-1900000000003-target
+      selected: false
+      source: '1900000000002'
+      sourceHandle: bd96b567-be46-4547-8fa5-50649a0b1d4c
+      target: '1900000000003'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1900000000002-ceaf62ee-8ecf-4107-a192-b1f39133a7ae-1900000000003-target
+      selected: false
+      source: '1900000000002'
+      sourceHandle: ceaf62ee-8ecf-4107-a192-b1f39133a7ae
+      target: '1900000000003'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: 1900000000003-source-1900000000004-target
+      selected: false
+      source: '1900000000003'
+      sourceHandle: source
+      target: '1900000000004'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: code
+      id: 1900000000004-source-1900000000005-target
+      selected: false
+      source: '1900000000004'
+      sourceHandle: source
+      target: '1900000000005'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: assigner
+      id: 1900000000005-source-1900000000006-target
+      selected: false
+      source: '1900000000005'
+      sourceHandle: source
+      target: '1900000000006'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: assigner
+        targetType: code
+      id: 1900000000006-source-1900000000007-target
+      selected: false
+      source: '1900000000006'
+      sourceHandle: source
+      target: '1900000000007'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: if-else
+      id: 1900000000007-source-1900000000008-target
+      selected: false
+      source: '1900000000007'
+      sourceHandle: source
+      target: '1900000000008'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: answer
+      id: 1900000000008-264d507d-b056-4d9e-8e40-0c6bf9ef5e6c-1900000000009-target
+      selected: false
+      source: '1900000000008'
+      sourceHandle: 264d507d-b056-4d9e-8e40-0c6bf9ef5e6c
+      target: '1900000000009'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: code
+      id: 1900000000008-false-1900000000010-target
+      selected: false
+      source: '1900000000008'
+      sourceHandle: 'false'
+      target: '1900000000010'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: assigner
+      id: 1900000000010-source-1900000000011-target
+      selected: false
+      source: '1900000000010'
+      sourceHandle: source
+      target: '1900000000011'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: code
+      id: 1900000000002-056bd54d-2dfb-4bb6-896a-ab06a375aa22-1900000000015-target
+      selected: false
+      source: '1900000000002'
+      sourceHandle: 056bd54d-2dfb-4bb6-896a-ab06a375aa22
+      target: '1900000000015'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: if-else
+      id: 1900000000015-source-1900000000016-target
+      selected: false
+      source: '1900000000015'
+      sourceHandle: source
+      target: '1900000000016'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1900000000002-a55b2128-e853-4c8e-96d1-5876ac0506d3-1900000000023-target
+      selected: false
+      source: '1900000000002'
+      sourceHandle: a55b2128-e853-4c8e-96d1-5876ac0506d3
+      target: '1900000000023'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: 1900000000023-source-1900000000024-target
+      selected: false
+      source: '1900000000023'
+      sourceHandle: source
+      target: '1900000000024'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: code
+      id: 1900000000024-source-1900000000025-target
+      selected: false
+      source: '1900000000024'
+      sourceHandle: source
+      target: '1900000000025'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: assigner
+      id: 1900000000025-source-1900000000026-target
+      selected: false
+      source: '1900000000025'
+      sourceHandle: source
+      target: '1900000000026'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: assigner
+        targetType: code
+      id: 1900000000026-source-1900000000027-target
+      selected: false
+      source: '1900000000026'
+      sourceHandle: source
+      target: '1900000000027'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: if-else
+      id: 1900000000027-source-1900000000028-target
+      selected: false
+      source: '1900000000027'
+      sourceHandle: source
+      target: '1900000000028'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: assigner
+      id: 1900000000030-source-1900000000031-target
+      selected: false
+      source: '1900000000030'
+      sourceHandle: source
+      target: '1900000000031'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1900000000002-10c0331c-608a-4008-bea7-4244b02d0113-1900000000032-target
+      selected: false
+      source: '1900000000002'
+      sourceHandle: 10c0331c-608a-4008-bea7-4244b02d0113
+      target: '1900000000032'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: 1900000000032-source-1900000000033-target
+      selected: false
+      source: '1900000000032'
+      sourceHandle: source
+      target: '1900000000033'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: code
+      id: 1900000000033-source-1900000000034-target
+      selected: false
+      source: '1900000000033'
+      sourceHandle: source
+      target: '1900000000034'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: assigner
+      id: 1900000000034-source-1900000000035-target
+      selected: false
+      source: '1900000000034'
+      sourceHandle: source
+      target: '1900000000035'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: assigner
+        targetType: code
+      id: 1900000000035-source-1900000000036-target
+      selected: false
+      source: '1900000000035'
+      sourceHandle: source
+      target: '1900000000036'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: if-else
+      id: 1900000000036-source-1900000000037-target
+      selected: false
+      source: '1900000000036'
+      sourceHandle: source
+      target: '1900000000037'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: answer
+      id: 1900000000037-fe198bd9-3acd-410d-93ec-250d0c41ac3d-1900000000038-target
+      selected: false
+      source: '1900000000037'
+      sourceHandle: fe198bd9-3acd-410d-93ec-250d0c41ac3d
+      target: '1900000000038'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: code
+      id: 1900000000037-false-1900000000039-target
+      selected: false
+      source: '1900000000037'
+      sourceHandle: 'false'
+      target: '1900000000039'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: assigner
+      id: 1900000000039-source-1900000000040-target
+      selected: false
+      source: '1900000000039'
+      sourceHandle: source
+      target: '1900000000040'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: code
+      id: 1900000000002-8413985c-5e50-40a5-a0bf-515d3452fed4-1900000000041-target
+      selected: false
+      source: '1900000000002'
+      sourceHandle: 8413985c-5e50-40a5-a0bf-515d3452fed4
+      target: '1900000000041'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: if-else
+      id: 1900000000041-source-1900000000042-target
+      selected: false
+      source: '1900000000041'
+      sourceHandle: source
+      target: '1900000000042'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: code
+      id: 1900000000042-5cd58a7d-e620-4816-bbee-02ea8604bcf2-1900000000043-target
+      selected: false
+      source: '1900000000042'
+      sourceHandle: 5cd58a7d-e620-4816-bbee-02ea8604bcf2
+      target: '1900000000043'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: assigner
+      id: 1900000000043-source-1900000000044-target
+      selected: false
+      source: '1900000000043'
+      sourceHandle: source
+      target: '1900000000044'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: if-else
+      id: 1900000000042-false-1900000000045-target
+      selected: false
+      source: '1900000000042'
+      sourceHandle: 'false'
+      target: '1900000000045'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: code
+      id: 1900000000045-ae49668d-2d8c-45bb-901c-41124a717687-1900000000046-target
+      selected: false
+      source: '1900000000045'
+      sourceHandle: ae49668d-2d8c-45bb-901c-41124a717687
+      target: '1900000000046'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: assigner
+      id: 1900000000046-source-1900000000047-target
+      selected: false
+      source: '1900000000046'
+      sourceHandle: source
+      target: '1900000000047'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: code
+      id: 1900000000045-false-1900000000048-target
+      selected: false
+      source: '1900000000045'
+      sourceHandle: 'false'
+      target: '1900000000048'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: assigner
+      id: 1900000000048-source-1900000000049-target
+      selected: false
+      source: '1900000000048'
+      sourceHandle: source
+      target: '1900000000049'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1900000000002-c11eb9fd-1d28-4636-ab87-9d59b9e03dfe-1900000000050-target
+      selected: false
+      source: '1900000000002'
+      sourceHandle: c11eb9fd-1d28-4636-ab87-9d59b9e03dfe
+      target: '1900000000050'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: 1900000000050-source-1900000000051-target
+      selected: false
+      source: '1900000000050'
+      sourceHandle: source
+      target: '1900000000051'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: code
+      id: 1900000000051-source-1900000000052-target
+      selected: false
+      source: '1900000000051'
+      sourceHandle: source
+      target: '1900000000052'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: assigner
+      id: 1900000000052-source-1900000000053-target
+      selected: false
+      source: '1900000000052'
+      sourceHandle: source
+      target: '1900000000053'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: assigner
+        targetType: code
+      id: 1900000000053-source-1900000000054-target
+      selected: false
+      source: '1900000000053'
+      sourceHandle: source
+      target: '1900000000054'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: if-else
+      id: 1900000000054-source-1900000000055-target
+      selected: false
+      source: '1900000000054'
+      sourceHandle: source
+      target: '1900000000055'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: answer
+      id: 1900000000055-d096c466-bbaf-4e7e-bbc0-fa6587e6fd35-1900000000056-target
+      selected: false
+      source: '1900000000055'
+      sourceHandle: d096c466-bbaf-4e7e-bbc0-fa6587e6fd35
+      target: '1900000000056'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: code
+      id: 1900000000055-false-1900000000057-target
+      selected: false
+      source: '1900000000055'
+      sourceHandle: 'false'
+      target: '1900000000057'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: assigner
+      id: 1900000000057-source-1900000000058-target
+      selected: false
+      source: '1900000000057'
+      sourceHandle: source
+      target: '1900000000058'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: answer
+      id: 1900000000002-361653f8-885c-40e5-bef4-4c2eed3facb3-1900000000059-target
+      selected: false
+      source: '1900000000002'
+      sourceHandle: 361653f8-885c-40e5-bef4-4c2eed3facb3
+      target: '1900000000059'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: answer
+        targetType: code
+      id: 1900000000059-source-1900000000060-target
+      selected: false
+      source: '1900000000059'
+      sourceHandle: source
+      target: '1900000000060'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: code
+      id: 1900000000060-source-1900000000061-target
+      selected: false
+      source: '1900000000060'
+      sourceHandle: source
+      target: '1900000000061'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: assigner
+      id: 1900000000061-source-1900000000062-target
+      selected: false
+      source: '1900000000061'
+      sourceHandle: source
+      target: '1900000000062'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: assigner
+        targetType: code
+      id: 1900000000062-source-1900000000063-target
+      selected: false
+      source: '1900000000062'
+      sourceHandle: source
+      target: '1900000000063'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: if-else
+      id: 1900000000063-source-1900000000064-target
+      selected: false
+      source: '1900000000063'
+      sourceHandle: source
+      target: '1900000000064'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: answer
+      id: 1900000000064-c68b26a6-d482-44c0-8145-8047b9f62993-1900000000065-target
+      selected: false
+      source: '1900000000064'
+      sourceHandle: c68b26a6-d482-44c0-8145-8047b9f62993
+      target: '1900000000065'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: code
+      id: 1900000000064-false-1900000000066-target
+      selected: false
+      source: '1900000000064'
+      sourceHandle: 'false'
+      target: '1900000000066'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: assigner
+      id: 1900000000066-source-1900000000067-target
+      selected: false
+      source: '1900000000066'
+      sourceHandle: source
+      target: '1900000000067'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1900000000002-66688662-4780-4974-95ad-061bb9b00e4c-1900000000068-target
+      selected: false
+      source: '1900000000002'
+      sourceHandle: 66688662-4780-4974-95ad-061bb9b00e4c
+      target: '1900000000068'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: 1900000000068-source-1900000000069-target
+      selected: false
+      source: '1900000000068'
+      sourceHandle: source
+      target: '1900000000069'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: answer
+      id: 1900000000069-source-1900000000070-target
+      selected: false
+      source: '1900000000069'
+      sourceHandle: source
+      target: '1900000000070'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: code
+      id: 1900000000069-source-1900000000071-target
+      selected: false
+      source: '1900000000069'
+      sourceHandle: source
+      target: '1900000000071'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: assigner
+      id: 1900000000071-source-1900000000072-target
+      selected: false
+      source: '1900000000071'
+      sourceHandle: source
+      target: '1900000000072'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1900000000002-false-1900000000073-target
+      selected: false
+      source: '1900000000002'
+      sourceHandle: 'false'
+      target: '1900000000073'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: 1900000000073-source-1900000000074-target
+      selected: false
+      source: '1900000000073'
+      sourceHandle: source
+      target: '1900000000074'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: answer
+      id: 1900000000074-source-1900000000075-target
+      selected: false
+      source: '1900000000074'
+      sourceHandle: source
+      target: '1900000000075'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: code
+      id: 1900000000074-source-1900000000076-target
+      selected: false
+      source: '1900000000074'
+      sourceHandle: source
+      target: '1900000000076'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: assigner
+      id: 1900000000076-source-1900000000077-target
+      selected: false
+      source: '1900000000076'
+      sourceHandle: source
+      target: '1900000000077'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: answer
+      id: 1900000000016-false-1900000000078-target
+      selected: false
+      source: '1900000000016'
+      sourceHandle: 'false'
+      target: '1900000000080'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: assigner
+      id: 1900000000078-source-1900000000079-target
+      selected: false
+      source: '1900000000078'
+      sourceHandle: source
+      target: '1900000000079'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: 1900000000081-source-1900000000082-target
+      selected: false
+      source: '1900000000081'
+      sourceHandle: source
+      target: '1900000000082'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: code
+      id: 1900000000082-source-1900000000083-target
+      selected: false
+      source: '1900000000082'
+      sourceHandle: source
+      target: '1900000000083'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: assigner
+      id: 1900000000083-source-1900000000084-target
+      selected: false
+      source: '1900000000083'
+      sourceHandle: source
+      target: '1900000000084'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: assigner
+        targetType: llm
+      id: 1900000000084-source-1900000000068-target
+      selected: false
+      source: '1900000000084'
+      sourceHandle: source
+      target: '1900000000068'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1900000000002-d00f7f46-6186-4a98-99f5-3263c66835ac-1900000000081-target
+      selected: false
+      source: '1900000000002'
+      sourceHandle: d00f7f46-6186-4a98-99f5-3263c66835ac
+      target: '1900000000081'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: answer
+        targetType: code
+      id: 1900000000080-source-1900000000078-target
+      selected: false
+      source: '1900000000080'
+      sourceHandle: source
+      target: '1900000000078'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: variable-assigner
+        targetType: code
+      id: 1900000000011-source-1900000000015-target
+      selected: false
+      source: '1900000000011'
+      sourceHandle: source
+      target: '1900000000015'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1900000000016-21caf3ac-63c8-4606-81bd-400fe2a91f5b-1900000000023-target
+      selected: false
+      source: '1900000000016'
+      sourceHandle: 21caf3ac-63c8-4606-81bd-400fe2a91f5b
+      target: '1900000000023'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1900000000016-source-1900000000032-target
+      selected: false
+      source: '1900000000016'
+      sourceHandle: d32b06fa-33ee-42d7-846c-e64f712f1510
+      target: '1900000000032'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: answer
+      id: 1900000000028-61d54595-895c-421c-b31c-5401ab50c4af-1771120053099-target
+      selected: false
+      source: '1900000000028'
+      sourceHandle: 61d54595-895c-421c-b31c-5401ab50c4af
+      target: '1771120053099'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: answer
+      id: 1900000000028-false-1771118056254-target
+      source: '1900000000028'
+      sourceHandle: 'false'
+      target: '1771118056254'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: answer
+        targetType: code
+      id: 1771118056254-source-1900000000030-target
+      source: '1771118056254'
+      sourceHandle: source
+      target: '1900000000030'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: variable-assigner
+        targetType: code
+      id: 1900000000084-source-499360b5-2987-431c-9d1c-d308af13b78f-target
+      selected: false
+      source: '1900000000084'
+      sourceHandle: source
+      target: 499360b5-2987-431c-9d1c-d308af13b78f
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: variable-assigner
+      id: 499360b5-2987-431c-9d1c-d308af13b78f-source-72203734-1a4b-4968-a09f-c718b4f4e8da-target
+      selected: false
+      source: 499360b5-2987-431c-9d1c-d308af13b78f
+      sourceHandle: source
+      target: 72203734-1a4b-4968-a09f-c718b4f4e8da
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1900000000002-source-1900000000081-target
+      selected: false
+      source: '1900000000002'
+      sourceHandle: 71d7489e-be2b-4fe4-a450-70d071116372
+      target: '1900000000081'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: answer
+        targetType: code
+      id: 1900000000070-source-7f16a770-b7aa-47c3-a904-b8df6a1d7252-target
+      selected: false
+      source: '1900000000070'
+      sourceHandle: source
+      target: 7f16a770-b7aa-47c3-a904-b8df6a1d7252
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: variable-assigner
+      id: 7f16a770-b7aa-47c3-a904-b8df6a1d7252-source-22eecb4a-c580-4f30-a4e5-b0d0d2ee4d7f-target
+      selected: false
+      source: 7f16a770-b7aa-47c3-a904-b8df6a1d7252
+      sourceHandle: source
+      target: 22eecb4a-c580-4f30-a4e5-b0d0d2ee4d7f
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: answer
+      id: 1900000000002-source-b9863277-6ec7-4f2e-bc49-31f49a388fe0-target
+      selected: false
+      source: '1900000000002'
+      sourceHandle: 8b85bf7d-ba2e-4818-a2b2-ddd976a17861
+      target: b9863277-6ec7-4f2e-bc49-31f49a388fe0
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: assigner
+      id: 1900000001169-source-1900000001170-target
+      source: '1900000001169'
+      sourceHandle: source
+      target: '1900000001170'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: assigner
+        targetType: answer
+      id: 1900000001170-source-1900000001171-target
+      source: '1900000001170'
+      sourceHandle: source
+      target: '1900000001171'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: assigner
+      id: 1900000001174-source-1900000001175-target
+      source: '1900000001174'
+      sourceHandle: source
+      target: '1900000001175'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: assigner
+        targetType: answer
+      id: 1900000001175-source-1900000001176-target
+      source: '1900000001175'
+      sourceHandle: source
+      target: '1900000001176'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: assigner
+      id: 1900000001179-source-1900000001180-target
+      source: '1900000001179'
+      sourceHandle: source
+      target: '1900000001180'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: assigner
+        targetType: answer
+      id: 1900000001180-source-1900000001181-target
+      source: '1900000001180'
+      sourceHandle: source
+      target: '1900000001181'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: assigner
+      id: 1900000001184-source-1900000001185-target
+      source: '1900000001184'
+      sourceHandle: source
+      target: '1900000001185'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: assigner
+        targetType: answer
+      id: 1900000001185-source-1900000001186-target
+      source: '1900000001185'
+      sourceHandle: source
+      target: '1900000001186'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: code
+      id: 1900000000028-false-1900000001167-target
+      source: '1900000000028'
+      sourceHandle: 'false'
+      target: '1900000001167'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: if-else
+      id: 1900000001167-source-1900000001168-target
+      source: '1900000001167'
+      sourceHandle: source
+      target: '1900000001168'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: code
+      id: 1900000001168-dca12d56-ec2c-4268-9047-7513c536ddeb-1900000001169-target
+      source: '1900000001168'
+      sourceHandle: dca12d56-ec2c-4268-9047-7513c536ddeb
+      target: '1900000001169'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: code
+      id: 1900000001168-27dfce78-49af-4b2f-a932-6c54638acb0f-1900000001174-target
+      source: '1900000001168'
+      sourceHandle: 27dfce78-49af-4b2f-a932-6c54638acb0f
+      target: '1900000001174'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: code
+      id: 1900000001168-e3518ad7-380d-426b-b410-91b5a601396b-1900000001179-target
+      source: '1900000001168'
+      sourceHandle: e3518ad7-380d-426b-b410-91b5a601396b
+      target: '1900000001179'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: code
+      id: 1900000001168-5a84a794-8aa9-460c-88d3-43cc686117f5-1900000001184-target
+      source: '1900000001168'
+      sourceHandle: 5a84a794-8aa9-460c-88d3-43cc686117f5
+      target: '1900000001184'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: code
+      id: 1900000001168-false-1900000001184-target
+      source: '1900000001168'
+      sourceHandle: 'false'
+      target: '1900000001184'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: code
+      id: 1900000000002-d3708384-7872-49ea-9200-c1ca3d0f693f-1900000001300-a5dcf03c-227c-417e-af5f-ed2243f641da
+      selected: false
+      source: '1900000000002'
+      sourceHandle: d3708384-7872-49ea-9200-c1ca3d0f693f
+      target: '1900000001300'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: if-else
+      id: 1900000001300-source-1900000001301-eab5511f-0b09-4c17-8323-61923ac17c49
+      selected: false
+      source: '1900000001300'
+      sourceHandle: source
+      target: '1900000001301'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: code
+      id: 1900000001301-case_yes-1900000001306-7aafd9fd-072f-4e87-aedd-efd3369bbe9a
+      selected: false
+      source: '1900000001301'
+      sourceHandle: case_yes
+      target: '1900000001306'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: code
+      id: 1900000001301-case_no-1900000001303-05f90463-43f6-4b1c-8e4b-4ae665d8af23
+      selected: false
+      source: '1900000001301'
+      sourceHandle: case_no
+      target: '1900000001303'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: answer
+      id: 1900000001301-false-1900000001309-f1691f5a-408c-423e-814d-065b32c27df8
+      selected: false
+      source: '1900000001301'
+      sourceHandle: 'false'
+      target: '1900000001309'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: assigner
+      id: 1900000001306-source-1900000001307-0dcaf266-176e-4547-bc08-ec935b632250
+      selected: false
+      source: '1900000001306'
+      sourceHandle: source
+      target: '1900000001307'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: assigner
+        targetType: answer
+      id: 1900000001307-source-1900000001308-f2d21c95-afd2-4447-bec0-4e8151e974bc
+      selected: false
+      source: '1900000001307'
+      sourceHandle: source
+      target: '1900000001308'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: assigner
+      id: 1900000001303-source-1900000001304-03db0f95-cd1e-415a-b2f5-73c8a379a285
+      selected: false
+      source: '1900000001303'
+      sourceHandle: source
+      target: '1900000001304'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: assigner
+        targetType: answer
+      id: 1900000001304-source-1900000001305-6af0bcb9-43b1-45ca-bb06-3732ee77d9ac
+      selected: false
+      source: '1900000001304'
+      sourceHandle: source
+      target: '1900000001305'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        selected: false
+        title: ユーザー入力
+        type: start
+        variables: []
+      height: 73
+      id: '1900000000001'
+      position:
+        x: 0
+        y: 776
+      positionAbsolute:
+        x: 0
+        y: 776
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        cases:
+        - case_id: bd96b567-be46-4547-8fa5-50649a0b1d4c
+          conditions:
+          - comparison_operator: empty
+            id: f2076103-8b00-4e6a-acea-17d5d119d904
+            value: ''
+            varType: string
+            variable_selector:
+            - conversation
+            - cv_state
+          id: bd96b567-be46-4547-8fa5-50649a0b1d4c
+          logical_operator: and
+        - case_id: ceaf62ee-8ecf-4107-a192-b1f39133a7ae
+          conditions:
+          - comparison_operator: is
+            id: e12f78b1-2212-4456-a133-39cbcc6c64ac
+            value: ST_COLLECT_BASE
+            varType: string
+            variable_selector:
+            - conversation
+            - cv_state
+          id: ceaf62ee-8ecf-4107-a192-b1f39133a7ae
+          logical_operator: and
+        - case_id: 056bd54d-2dfb-4bb6-896a-ab06a375aa22
+          conditions:
+          - comparison_operator: is
+            id: 18876c7c-ebd3-4b04-a2de-3a8f04238fb4
+            value: ST_COLLECT_BRANCH
+            varType: string
+            variable_selector:
+            - conversation
+            - cv_state
+          id: 056bd54d-2dfb-4bb6-896a-ab06a375aa22
+          logical_operator: and
+        - case_id: a55b2128-e853-4c8e-96d1-5876ac0506d3
+          conditions:
+          - comparison_operator: is
+            id: a64d9d90-df80-4935-9f25-9bdf110d5e15
+            value: ST_DELAY_DETAIL
+            varType: string
+            variable_selector:
+            - conversation
+            - cv_state
+          id: a55b2128-e853-4c8e-96d1-5876ac0506d3
+          logical_operator: and
+        - case_id: 10c0331c-608a-4008-bea7-4244b02d0113
+          conditions:
+          - comparison_operator: is
+            id: 9441c11b-afec-4729-ae08-47d83a6d8e32
+            value: ST_SCREENING_DETAIL
+            varType: string
+            variable_selector:
+            - conversation
+            - cv_state
+          id: 10c0331c-608a-4008-bea7-4244b02d0113
+          logical_operator: and
+        - case_id: 8413985c-5e50-40a5-a0bf-515d3452fed4
+          conditions:
+          - comparison_operator: is
+            id: cdff0aaa-70ae-4f90-a339-9c87819a7fad
+            value: ST_ESCALATION_CHECK
+            varType: string
+            variable_selector:
+            - conversation
+            - cv_state
+          id: 8413985c-5e50-40a5-a0bf-515d3452fed4
+          logical_operator: and
+        - case_id: c11eb9fd-1d28-4636-ab87-9d59b9e03dfe
+          conditions:
+          - comparison_operator: is
+            id: 25671df2-4aa9-47c5-b666-caf114668c37
+            value: ST_DEFAULT_EVENT_DETAIL
+            varType: string
+            variable_selector:
+            - conversation
+            - cv_state
+          id: c11eb9fd-1d28-4636-ab87-9d59b9e03dfe
+          logical_operator: and
+        - case_id: 361653f8-885c-40e5-bef4-4c2eed3facb3
+          conditions:
+          - comparison_operator: is
+            id: 9628ed9d-a3f2-4696-a199-d3319f6e1319
+            value: ST_RESTRUCT_DETAIL
+            varType: string
+            variable_selector:
+            - conversation
+            - cv_state
+          id: 361653f8-885c-40e5-bef4-4c2eed3facb3
+          logical_operator: and
+        - case_id: 66688662-4780-4974-95ad-061bb9b00e4c
+          conditions:
+          - comparison_operator: is
+            id: dfa41f18-08ad-48f0-83b1-af9011e1983d
+            value: ST_STRATEGY
+            varType: string
+            variable_selector:
+            - conversation
+            - cv_state
+          id: 66688662-4780-4974-95ad-061bb9b00e4c
+          logical_operator: and
+        - case_id: 71d7489e-be2b-4fe4-a450-70d071116372
+          conditions:
+          - comparison_operator: is
+            id: fc8813e8-3feb-4a77-98a7-dd531dce429d
+            value: ST_BG_COLLECT
+            varType: string
+            variable_selector:
+            - conversation
+            - cv_state
+          id: 71d7489e-be2b-4fe4-a450-70d071116372
+          logical_operator: and
+        - case_id: 8b85bf7d-ba2e-4818-a2b2-ddd976a17861
+          conditions:
+          - comparison_operator: is
+            id: ee523b94-0b88-4e0a-80f4-4d0ac1d5a39e
+            value: ST_SCHEDULING
+            varType: string
+            variable_selector:
+            - conversation
+            - cv_state
+          id: 8b85bf7d-ba2e-4818-a2b2-ddd976a17861
+          logical_operator: and
+        - case_id: d3708384-7872-49ea-9200-c1ca3d0f693f
+          conditions:
+          - comparison_operator: is
+            id: 2732e300-f7d6-4da4-a88f-744f29aa7365
+            value: ST_PRO_DIAG_OFFER
+            varType: string
+            variable_selector:
+            - conversation
+            - cv_state
+          id: cb08223a-e849-43db-91d9-82b5eca4fe5c
+          logical_operator: and
+        selected: false
+        title: N00__STATE_ROUTER__IF
+        type: if-else
+      height: 652
+      id: '1900000000002'
+      position:
+        x: 343
+        y: 534
+      positionAbsolute:
+        x: 343
+        y: 534
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        memory:
+          enabled: false
+          window:
+            enabled: false
+            size: 10
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: o4-mini
+          provider: langgenius/openai/openai
+        prompt_template:
+        - id: fe940443-fc0b-45e1-8fcd-a6a65b43dd09
+          role: system
+          text: 'あなたは住宅ローン相談のヒアリング担当。
+
+            ユーザーの文章（箇条書き・番号付き・「項目：回答」形式を含む）から、共通スロット8項目を抽出し、必ずJSONのみで返す。
+
+
+            【共通スロット8項目（必須）】
+
+            - prefecture: 都道府県（例: 東京都）
+
+            - employment_type: 雇用形態（正社員/契約社員/派遣/自営/法人代表/パート/年金/その他）
+
+            - annual_income: 年収（数値。ユーザーが「500万円」「年収500万」「500」などでも可。単位は後段で正規化するので数値
+            or 文字列で返してよい）
+
+            - loan_count: 借入件数（数値 or 文字列）
+
+            - loan_total_amount: 借入総額（数値 or 文字列。例: 200万 / 2,000,000円）
+
+            - monthly_repayment_total: 毎月返済総額（数値 or 文字列。例: 45,000円 / 4.5万）
+
+            - has_delinquency: 返済遅延の有無（必ず "yes" or "no"）
+
+            - has_past_screening_failure: 住宅ローン審査落ち経験（必ず "yes" or "no"）
+
+
+            【抽出ルール】
+
+            - 推測で埋めない。不明は空文字 ""。
+
+            - yes/no判定はユーザー表現（ある/なし、はい/いいえ、滞納あり/なし、落ちた/落ちてない等）から確定できる場合のみ設定。確定できない場合は
+            ""。
+
+            - ユーザーが指定フォーマットで回答している場合（例：1. 都道府県：…）は、その値を優先して拾う。
+
+
+            【出力】
+
+            - 説明文は禁止。JSONオブジェクト1つのみを返す。
+
+            - 例：
+
+            {"prefecture":"東京都","employment_type":"正社員","annual_income":"550万円","loan_count":"2件","loan_total_amount":"180万円","monthly_repayment_total":"4.5万","has_delinquency":"no","has_past_screening_failure":"yes"}'
+        selected: false
+        structured_output: {}
+        structured_output_enabled: false
+        title: N10__BASE__COLLECT__LLM
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1900000000003'
+      position:
+        x: 706
+        y: 196
+      positionAbsolute:
+        x: 706
+        y: 196
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "function main(inputs) {\n  const text = inputs.text;\n\n  function\
+          \ safeJsonParse(str) {\n    try { return JSON.parse(str); } catch (e) {\
+          \ return null; }\n  }\n\n  function toYesNo(v) {\n    const s = String(v\
+          \ ?? \"\").trim().toLowerCase();\n    if ([\"yes\",\"y\",\"true\",\"1\"\
+          ,\"あり\",\"有\",\"ある\",\"はい\"].includes(s)) return \"yes\";\n    if ([\"no\"\
+          ,\"n\",\"false\",\"0\",\"なし\",\"無\",\"ない\",\"いいえ\"].includes(s)) return\
+          \ \"no\";\n    return \"\";\n  }\n\n  // 目的：金額系は「万円」単位で保存（例：800万→800、45,000円→4.5）\n\
+          \  function parseMoneyToMan(v) {\n    if (v === null || v === undefined)\
+          \ return \"\";\n    if (typeof v === \"number\" && Number.isFinite(v)) return\
+          \ v;\n\n    let s = String(v).trim();\n    if (!s) return \"\";\n\n    //\
+          \ 全角数字→半角\n    s = s.replace(/[０-９]/g, (c) => String.fromCharCode(c.charCodeAt(0)\
+          \ - 0xFEE0));\n    // カンマ/空白除去\n    s = s.replace(/[，,]/g, \"\");\n    s\
+          \ = s.replace(/\\s/g, \"\");\n\n    // よくある単位除去（「万」は残す）\n    s = s.replace(/(税込|税抜)/g,\
+          \ \"\");\n\n    // 「X万」「X万円」→ X（万円）\n    const manMatch = s.match(/^(-?\\\
+          d+(\\.\\d+)?)万(円)?$/);\n    if (manMatch) {\n      const n = Number(manMatch[1]);\n\
+          \      return Number.isFinite(n) ? n : \"\";\n    }\n    const manEnMatch\
+          \ = s.match(/^(-?\\d+(\\.\\d+)?)万円$/);\n    if (manEnMatch) {\n      const\
+          \ n = Number(manEnMatch[1]);\n      return Number.isFinite(n) ? n : \"\"\
+          ;\n    }\n\n    // 「円」表記 → 万円に換算\n    const yenMatch = s.match(/^(-?\\d+(\\\
+          .\\d+)?)円?$/);\n    if (yenMatch) {\n      const yen = Number(yenMatch[1]);\n\
+          \      if (!Number.isFinite(yen)) return \"\";\n      // 45,000円 → 4.5（万円）\n\
+          \      return Math.round((yen / 10000) * 10) / 10;\n    }\n\n    return\
+          \ \"\";\n  }\n\n  // 件数は数値へ（\"3件\"→3）\n  function parseCount(v) {\n    if\
+          \ (v === null || v === undefined) return \"\";\n    if (typeof v === \"\
+          number\" && Number.isFinite(v)) return v;\n    let s = String(v).trim();\n\
+          \    if (!s) return \"\";\n    s = s.replace(/[０-９]/g, (c) => String.fromCharCode(c.charCodeAt(0)\
+          \ - 0xFEE0));\n    s = s.replace(/[，,]/g, \"\");\n    s = s.replace(/\\\
+          s/g, \"\");\n    s = s.replace(/(件|回)/g, \"\");\n    const n = Number(s);\n\
+          \    return Number.isFinite(n) ? n : \"\";\n  }\n\n  const obj = safeJsonParse(text)\
+          \ || {};\n\n  const normalized = {\n    prefecture: String(obj.prefecture\
+          \ ?? \"\").trim(),\n    employment_type: String(obj.employment_type ?? \"\
+          \").trim(),\n    annual_income: parseMoneyToMan(obj.annual_income),    \
+          \        // 万円\n    loan_count: parseCount(obj.loan_count),\n    loan_total_amount:\
+          \ parseMoneyToMan(obj.loan_total_amount),    // 万円\n    monthly_repayment_total:\
+          \ parseMoneyToMan(obj.monthly_repayment_total), // 万円\n    has_delinquency:\
+          \ toYesNo(obj.has_delinquency),\n    has_past_screening_failure: toYesNo(obj.has_past_screening_failure),\n\
+          \  };\n\n  return { normalized_slots: normalized };\n}"
+        code_language: javascript
+        outputs:
+          normalized_slots:
+            children: null
+            type: object
+        selected: false
+        title: N11__BASE__NORMALIZE__CODE
+        type: code
+        variables:
+        - value_selector:
+          - '1900000000003'
+          - text
+          value_type: string
+          variable: text
+      height: 52
+      id: '1900000000004'
+      position:
+        x: 1049
+        y: 214
+      positionAbsolute:
+        x: 1049
+        y: 214
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "function main(inputs){\n  const current=(inputs.cv_slots&&typeof inputs.cv_slots===\"\
+          object\")?inputs.cv_slots:{};\n  const next=(inputs.normalized_slots&&typeof\
+          \ inputs.normalized_slots===\"object\")?inputs.normalized_slots:{};\n  const\
+          \ merged={...current,...next};\n  for(const k of Object.keys(next)){\n \
+          \   if(next[k]===\"\"||next[k]===null||next[k]===undefined){\n      if(current[k]!==undefined&&current[k]!==null&&current[k]!==\"\
+          \") merged[k]=current[k];\n    }\n  }\n  return { merged_slots: merged };\n\
+          }"
+        code_language: javascript
+        outputs:
+          merged_slots:
+            children: null
+            type: object
+        selected: false
+        title: N12__BASE__MERGE_SLOTS__CODE
+        type: code
+        variables:
+        - value_selector:
+          - conversation
+          - cv_slots
+          value_type: object
+          variable: cv_slots
+        - value_selector:
+          - '1900000000004'
+          - normalized_slots
+          value_type: object
+          variable: normalized_slots
+      height: 52
+      id: '1900000000005'
+      position:
+        x: 1392
+        y: 214
+      positionAbsolute:
+        x: 1392
+        y: 214
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        items:
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1900000000005'
+          - merged_slots
+          variable_selector:
+          - conversation
+          - cv_slots
+          write_mode: over-write
+        selected: false
+        title: N12A__BASE__SAVE_SLOTS__SET
+        type: assigner
+        version: '2'
+      height: 84
+      id: '1900000000006'
+      position:
+        x: 1735
+        y: 198
+      positionAbsolute:
+        x: 1735
+        y: 198
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "function main(inputs) {\n  const slots = (inputs.cv_slots && typeof\
+          \ inputs.cv_slots === \"object\")\n    ? inputs.cv_slots\n    : {};\n\n\
+          \  const required = [\n    { key: \"prefecture\", label: \"都道府県\" },\n \
+          \   { key: \"employment_type\", label: \"雇用形態\" },\n    { key: \"annual_income\"\
+          , label: \"年収（万円）\" },\n    { key: \"loan_count\", label: \"借入件数（件）\" },\n\
+          \    { key: \"loan_total_amount\", label: \"借入総額（万円）\" },\n    { key: \"\
+          monthly_repayment_total\", label: \"毎月の返済総額（万円）\" },\n    { key: \"has_delinquency\"\
+          , label: \"返済遅延の有無（はい/いいえ）\" },\n    { key: \"has_past_screening_failure\"\
+          , label: \"住宅ローン審査落ち経験（はい/いいえ）\" },\n  ];\n\n  function isEmpty(v) {\n \
+          \   return v === \"\" || v === null || v === undefined;\n  }\n\n  const\
+          \ missing = required.filter(r => isEmpty(slots[r.key]));\n  const missing_slots\
+          \ = missing.map(m => m.key);\n\n  const missing_slots_text =\n    missing.length\
+          \ === 0\n      ? \"\"\n      : \"確認のため、下記を教えてください（分かる範囲で大丈夫です）\\n\\n\" +\n\
+          \        \"以下、分かる範囲でこの形式で回答してください（コピペして埋めてOK）\\n\" +\n        missing.map(m\
+          \ => `- ${m.label}：`).join(\"\\n\");\n\n  return {\n    missing_slots,\n\
+          \    missing_slots_text,\n    missing_count: missing.length\n  };\n}"
+        code_language: javascript
+        outputs:
+          missing_count:
+            children: null
+            type: number
+          missing_slots:
+            children: null
+            type: array[string]
+          missing_slots_text:
+            children: null
+            type: string
+        selected: false
+        title: N13__BASE__MISSING_LIST__CODE
+        type: code
+        variables:
+        - value_selector:
+          - conversation
+          - cv_slots
+          value_type: object
+          variable: cv_slots
+      height: 52
+      id: '1900000000007'
+      position:
+        x: 2078
+        y: 214
+      positionAbsolute:
+        x: 2078
+        y: 214
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        cases:
+        - case_id: 264d507d-b056-4d9e-8e40-0c6bf9ef5e6c
+          conditions:
+          - comparison_operator: '>'
+            id: 53b43636-22a5-43db-826f-3a819a07279e
+            numberVarType: constant
+            value: '0'
+            varType: number
+            variable_selector:
+            - '1900000000007'
+            - missing_count
+          id: 264d507d-b056-4d9e-8e40-0c6bf9ef5e6c
+          logical_operator: and
+        selected: false
+        title: N14__BASE__HAS_MISSING__IF
+        type: if-else
+      height: 124
+      id: '1900000000008'
+      position:
+        x: 2421
+        y: 178
+      positionAbsolute:
+        x: 2421
+        y: 178
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: 'ありがとうございます。
+
+          まずは状況の整理のため、以下だけ教えてください（コピペでOKです）。
+
+
+          {{#1900000000007.missing_slots_text#}}
+
+          [[SPLIT]]
+
+          【居住地（都道府県）】
+
+          【雇用形態】
+
+          【年収（万円）】
+
+          【借入件数（件）】
+
+          【借入総額（万円）】
+
+          【返済遅延の有無（ある/ない/不明）】
+
+          【住宅ローン審査落ち経験（あり/なし）】'
+        selected: false
+        title: N15__BASE__MISSING_ASK__ANS
+        type: answer
+        variables: []
+      height: 247
+      id: '1900000000009'
+      position:
+        x: 2784
+        y: 35
+      positionAbsolute:
+        x: 2784
+        y: 35
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "function main(inputs){\n  const q=String(inputs.query??\"\");\n  const\
+          \ slots=(inputs.cv_slots&&typeof inputs.cv_slots==='object')?inputs.cv_slots:{};\n\
+          \  const containsAny=(s,arr)=>arr.some(w=>s.includes(w));\n  let has_delinquency=slots.has_delinquency||\"\
+          \";\n  let has_past_screening_failure=slots.has_past_screening_failure||\"\
+          \";\n  if(containsAny(q,[\"遅延\",\"延滞\",\"滞納\"])) has_delinquency=\"yes\"\
+          ;\n  if(containsAny(q,[\"遅延ない\",\"延滞ない\",\"滞納ない\"])) has_delinquency=has_delinquency||\"\
+          no\";\n  if(containsAny(q,[\"審査落ち\",\"否決\",\"通らない\",\"落ちた\"])) has_past_screening_failure=\"\
+          yes\";\n  if(containsAny(q,[\"落ちてない\",\"否決なし\"])) has_past_screening_failure=has_past_screening_failure||\"\
+          no\";\n  const merged_slots={...slots,has_delinquency,has_past_screening_failure};\n\
+          \  return { merged_slots };\n}"
+        code_language: javascript
+        outputs:
+          merged_slots:
+            children: null
+            type: object
+        selected: false
+        title: N16__BASE__EXTRACT_BRANCH_KEYS__CODE
+        type: code
+        variables:
+        - value_selector:
+          - sys
+          - query
+          value_type: string
+          variable: query
+        - value_selector:
+          - conversation
+          - cv_slots
+          value_type: object
+          variable: cv_slots
+      height: 52
+      id: '1900000000010'
+      position:
+        x: 2784
+        y: 251
+      positionAbsolute:
+        x: 2784
+        y: 251
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        items:
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1900000000010'
+          - merged_slots
+          variable_selector:
+          - conversation
+          - cv_slots
+          write_mode: over-write
+        selected: false
+        title: N16A__BASE__SAVE_KEYS__SET
+        type: assigner
+        version: '2'
+      height: 84
+      id: '1900000000011'
+      position:
+        x: 3127
+        y: 235
+      positionAbsolute:
+        x: 3127
+        y: 235
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "function tailYesNo(line) {\n  const s = (line ?? '').toString().trim();\n\
+          \  // 行末にある「はい/いいえ」を最優先\n  const m = s.match(/(はい|いいえ)\\s*$/);\n  if (!m)\
+          \ return '';\n  return m[1] === 'はい' ? 'yes' : 'no';\n}\n\nfunction findLine(text,\
+          \ keyword) {\n  const lines = (text ?? '').toString().split('\\n').map(x\
+          \ => x.trim()).filter(Boolean);\n  // 「キーワードを含む行」を1行だけ拾う（最初に当たったもの）\n  return\
+          \ lines.find(l => l.includes(keyword)) || '';\n}\n\nfunction main(inputs)\
+          \ {\n  const q = inputs.query ?? '';\n  const slots = inputs.cv_slots ??\
+          \ {};\n\n  // テンプレから厳密に拾う（最優先）\n  const lineDel  = findLine(q, '返済遅延');\n\
+          \  const lineFail = findLine(q, '審査落ち');\n\n  let has_delinquency = tailYesNo(lineDel);\n\
+          \  let has_past_screening_failure = tailYesNo(lineFail);\n\n  // テンプレから取れなかった時だけ\
+          \ slots を補助的に使う\n  const sDel = (slots.has_delinquency ?? '').toString().toLowerCase();\n\
+          \  const sFail = (slots.has_past_screening_failure ?? '').toString().toLowerCase();\n\
+          \n  if (!has_delinquency) {\n    if (sDel === 'yes' || sDel === 'no') has_delinquency\
+          \ = sDel;\n    else has_delinquency = 'unknown';\n  }\n  if (!has_past_screening_failure)\
+          \ {\n    if (sFail === 'yes' || sFail === 'no') has_past_screening_failure\
+          \ = sFail;\n    else has_past_screening_failure = 'unknown';\n  }\n\n  return\
+          \ { has_delinquency, has_past_screening_failure };\n}\n"
+        code_language: javascript
+        outputs:
+          has_delinquency:
+            children: null
+            type: string
+          has_past_screening_failure:
+            children: null
+            type: string
+        selected: false
+        title: N20A__BRANCH__READ_KEYS__CODE
+        type: code
+        variables:
+        - value_selector:
+          - conversation
+          - cv_slots
+          value_type: object
+          variable: cv_slots
+        - value_selector:
+          - sys
+          - query
+          value_type: string
+          variable: query
+      height: 52
+      id: '1900000000015'
+      position:
+        x: 3490
+        y: 260
+      positionAbsolute:
+        x: 3490
+        y: 260
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        cases:
+        - case_id: 21caf3ac-63c8-4606-81bd-400fe2a91f5b
+          conditions:
+          - comparison_operator: is
+            id: 9437b440-7a48-4a1e-9536-1968df3b0c7f
+            value: 'yes'
+            varType: string
+            variable_selector:
+            - '1900000000015'
+            - has_delinquency
+          id: 21caf3ac-63c8-4606-81bd-400fe2a91f5b
+          logical_operator: and
+        - case_id: d32b06fa-33ee-42d7-846c-e64f712f1510
+          conditions:
+          - comparison_operator: is
+            id: 0ef4cca7-21dc-48b7-8b33-e7c1d0552c8d
+            value: 'yes'
+            varType: string
+            variable_selector:
+            - '1900000000015'
+            - has_past_screening_failure
+          id: d32b06fa-33ee-42d7-846c-e64f712f1510
+          logical_operator: and
+        selected: false
+        title: N20__BRANCH__ROUTER__IF
+        type: if-else
+      height: 172
+      id: '1900000000016'
+      position:
+        x: 3853
+        y: 49
+      positionAbsolute:
+        x: 3853
+        y: 49
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        memory:
+          enabled: false
+          role_prefix:
+            assistant: ''
+            user: ''
+          window:
+            enabled: false
+            size: 10
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: o4-mini
+          provider: langgenius/openai/openai
+        prompt_template:
+        - id: d12a2102-1b78-4435-b6c2-dfa9c6299582
+          role: system
+          text: "あなたは住宅ローン相談の受付担当。\nユーザーの入力から「遅延状況の判断に必要な5項目」を抽出し、必ずJSONのみで返す。\n\n\
+            【最重要：出力ルール】\n- 出力は必ずJSONのみ（前後に文章を付けない）\n- 次のキーを必ず含める（不明な場合は空文字 \"\"）\n\
+            - 値は文字列で返す\n- 可能なら指定の選択肢（正規化後）に寄せる\n\n【出力JSONキー】\n{\n  \"delinquency_count_bucket\"\
+            : \"\",      // \"2-3\" / \"4-6\" / \"7+\" / \"\"\n  \"delinquency_max_delay_bucket\"\
+            : \"\", // \"2-3d\" / \"4-6d\" / \"7d+\" / \"\"\n  \"has_credit_report\"\
+            : \"\",            // \"yes\" / \"no\" / \"\"\n  \"assignment_status\"\
+            : \"\",            // \"yes\" / \"no\" / \"unknown\" / \"\"\n  \"debt_relief_status\"\
+            : \"\"            // \"yes\" / \"no\" / \"\"\n}\n\n【正規化の目安】\n- 遅延回数：\n\
+            \  - 2回/3回/2〜3回 → \"2-3\"\n  - 4回/5回/6回/4〜6回 → \"4-6\"\n  - 7回以上/毎月/常習/多数\
+            \ → \"7+\"\n- 最長遅延期間：\n  - 2日/3日/2〜3日 → \"2-3d\"\n  - 4日/5日/6日/4〜6日 →\
+            \ \"4-6d\"\n  - 7日以上/1週間以上/2週間/1ヶ月 → \"7d+\"\n- 信用情報開示：\n  - あり/開示した/取り寄せた/手元にある/はい\
+            \ → \"yes\"\n  - なし/まだ/やってない/いいえ → \"no\"\n- 債権異動：\n  - 異動あり/債権異動/延滞が残っている/強制解約/代位弁済\
+            \ など明確 → \"yes\"\n  - 異動なし/異動はない → \"no\"\n  - 分からない/覚えてない/不明 → \"unknown\"\
+            \n- 債務整理・自己破産：\n  - 任意整理/個人再生/自己破産/債務整理 → \"yes\"\n  - していない/なし → \"no\"\
+            \n"
+        - id: 3b7a8c2b-0720-46da-87d9-72540bba396e
+          role: user
+          text: '{{#sys.query#}}'
+        selected: false
+        structured_output: {}
+        structured_output_enabled: false
+        title: N30__DELAY__COLLECT__LLM
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1900000000023'
+      position:
+        x: 4216
+        y: 342
+      positionAbsolute:
+        x: 4216
+        y: 342
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "function main(inputs){\n  const raw = (inputs.text ?? \"\").toString();\n\
+          \  const text = raw;\n\n  const pick = (v)=> String(v ?? \"\").trim();\n\
+          \n  // helper: normalize yes/no/unknown from a snippet\n  const normYN =\
+          \ (v)=>{\n    const s = pick(v);\n    if(!s) return \"\";\n    if(/(不明|わからない|分からない|覚えてない)/.test(s))\
+          \ return \"unknown\";\n    if(/(あり|有|ある|はい|開示した|取り寄せた|手元にある)/.test(s)) return\
+          \ \"yes\";\n    if(/(なし|無|ない|いいえ|未開示|まだ)/.test(s)) return \"no\";\n    return\
+          \ \"\";\n  };\n\n  const normalized_slots = {\n    delinquency_count_bucket:\
+          \ \"\",\n    delinquency_max_delay_bucket: \"\",\n    has_credit_report:\
+          \ \"\",\n    assignment_status: \"\",\n    debt_relief_status: \"\"\n  };\n\
+          \n  // 1) delinquency count bucket\n  {\n    const s=text.replace(/\\s+/g,\"\
+          \");\n    if(/2[-〜~]3回/.test(s)) normalized_slots.delinquency_count_bucket=\"\
+          2-3\";\n    else if(/4[-〜~]6回/.test(s)) normalized_slots.delinquency_count_bucket=\"\
+          4-6\";\n    else if(/7(\\+|回以上|以上)/.test(s)) normalized_slots.delinquency_count_bucket=\"\
+          7+\";\n    else{\n      const m=s.match(/遅延回数[:：]?(\\\\d+)回?/);\n      if(m){\n\
+          \        const n=Number(m[1]);\n        if(n>=2 && n<=3) normalized_slots.delinquency_count_bucket=\"\
+          2-3\";\n        else if(n>=4 && n<=6) normalized_slots.delinquency_count_bucket=\"\
+          4-6\";\n        else if(n>=7) normalized_slots.delinquency_count_bucket=\"\
+          7+\";\n      }\n    }\n  }\n\n  // 2) max delay bucket\n  {\n    const s=text.replace(/\\\
+          s+/g,\"\");\n    if(/2[-〜~]3日/.test(s)) normalized_slots.delinquency_max_delay_bucket=\"\
+          2-3d\";\n    else if(/4[-〜~]6日/.test(s)) normalized_slots.delinquency_max_delay_bucket=\"\
+          4-6d\";\n    else if(/7(日以上|以上|\\\\+)|1週間以上|2週間|1ヶ?月/.test(s)) normalized_slots.delinquency_max_delay_bucket=\"\
+          7d+\";\n    else{\n      const m=s.match(/最長遅延(期間)?[:：]?(\\\\d+)日/);\n \
+          \     if(m){\n        const n=Number(m[2]);\n        if(n>=2 && n<=3) normalized_slots.delinquency_max_delay_bucket=\"\
+          2-3d\";\n        else if(n>=4 && n<=6) normalized_slots.delinquency_max_delay_bucket=\"\
+          4-6d\";\n        else if(n>=7) normalized_slots.delinquency_max_delay_bucket=\"\
+          7d+\";\n      }\n    }\n  }\n\n  // 3) credit report: accept both \"信用情報:なし\"\
+          \ and \"信用情報なし\"\n  {\n    const m = text.match(/(信用情報|CIC|JICC)[^\\n]*?(あり|なし|不明|わからない|分からない|はい|いいえ)/);\n\
+          \    if(m){\n      const yn = normYN(m[2]);\n      if(yn===\"yes\") normalized_slots.has_credit_report=\"\
+          yes\";\n      else if(yn===\"no\") normalized_slots.has_credit_report=\"\
+          no\";\n      // unknown -> treat as blank to re-ask\n    }\n  }\n\n  //\
+          \ 4) assignment: accept \"債権異動不明\" etc.\n  {\n    const m = text.match(/(債権異動|異動)[^\\\
+          n]*?(あり|なし|不明|わからない|分からない|はい|いいえ)/);\n    if(m){\n      const yn = normYN(m[2]);\n\
+          \      if(yn===\"unknown\") normalized_slots.assignment_status=\"unknown\"\
+          ;\n      else if(yn===\"yes\") normalized_slots.assignment_status=\"yes\"\
+          ;\n      else if(yn===\"no\") normalized_slots.assignment_status=\"no\"\
+          ;\n    }\n  }\n\n  // 5) debt relief: accept \"債務整理なし\" etc.\n  {\n    //\
+          \ if mentions specific types, it's yes\n    if(/(任意整理|個人再生|自己破産)/.test(text))\
+          \ normalized_slots.debt_relief_status=\"yes\";\n    else{\n      const m\
+          \ = text.match(/(債務整理|自己破産)[^\\n]*?(あり|なし|不明|わからない|分からない|はい|いいえ|していない)/);\n\
+          \      if(m){\n        const yn = normYN(m[2]);\n        if(yn===\"yes\"\
+          ) normalized_slots.debt_relief_status=\"yes\";\n        else if(yn===\"\
+          no\") normalized_slots.debt_relief_status=\"no\";\n      }\n    }\n  }\n\
+          \n  return { normalized_slots };\n}"
+        code_language: javascript
+        outputs:
+          normalized_slots:
+            children: null
+            type: object
+        selected: false
+        title: N30__DELAY__NORMALIZE__CODE
+        type: code
+        variables:
+        - value_selector:
+          - sys
+          - query
+          value_type: string
+          variable: text
+      height: 52
+      id: '1900000000024'
+      position:
+        x: 4559
+        y: 360
+      positionAbsolute:
+        x: 4559
+        y: 360
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "function main(inputs){\n  const current=(inputs.cv_slots&&typeof inputs.cv_slots===\"\
+          object\")?inputs.cv_slots:{};\n  const next=(inputs.normalized_slots&&typeof\
+          \ inputs.normalized_slots===\"object\")?inputs.normalized_slots:{};\n  const\
+          \ merged={...current,...next};\n  for(const k of Object.keys(next)){\n \
+          \   if(next[k]===\"\"||next[k]===null||next[k]===undefined){\n      if(current[k]!==undefined&&current[k]!==null&&current[k]!==\"\
+          \") merged[k]=current[k];\n    }\n  }\n  return { merged_slots: merged };\n\
+          }"
+        code_language: javascript
+        outputs:
+          merged_slots:
+            children: null
+            type: object
+        selected: false
+        title: N30__DELAY__MERGE_SLOTS__CODE
+        type: code
+        variables:
+        - value_selector:
+          - conversation
+          - cv_slots
+          value_type: object
+          variable: cv_slots
+        - value_selector:
+          - '1900000000024'
+          - normalized_slots
+          value_type: object
+          variable: normalized_slots
+      height: 52
+      id: '1900000000025'
+      position:
+        x: 4902
+        y: 360
+      positionAbsolute:
+        x: 4902
+        y: 360
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        items:
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1900000000025'
+          - merged_slots
+          variable_selector:
+          - conversation
+          - cv_slots
+          write_mode: over-write
+        selected: false
+        title: N30__DELAY__SAVE_SLOTS__SET
+        type: assigner
+        version: '2'
+      height: 84
+      id: '1900000000026'
+      position:
+        x: 5245
+        y: 344
+      positionAbsolute:
+        x: 5245
+        y: 344
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "function main(inputs){\n  const slots=(inputs.cv_slots&&typeof inputs.cv_slots==='object')?inputs.cv_slots:{};\n\
+          \n  const required=[\n    { key: \"delinquency_count_bucket\", label: \"\
+          遅延回数（2〜3回／4〜6回／7回以上）\" },\n    { key: \"delinquency_max_delay_bucket\",\
+          \ label: \"最長遅延期間（2〜3日／4〜6日／7日以上）\" },\n    { key: \"has_credit_report\"\
+          , label: \"信用情報（CIC/JICC）の開示（あり／なし）\" },\n    { key: \"assignment_status\"\
+          , label: \"債権異動（あり／なし／不明）\" },\n    { key: \"debt_relief_status\", label:\
+          \ \"債務整理・自己破産（あり／なし）\" }\n  ];\n\n  const isEmpty=(v)=>{\n    if (v===''||v===null||v===undefined)\
+          \ return true;\n    if (typeof v==='string' && v.trim().toLowerCase()==='')\
+          \ return true;\n    return false;\n  };\n\n  const missingLabels=required.filter(r=>isEmpty(slots[r.key])).map(r=>r.label);\n\
+          \n  const missing_slots_text =\n    missingLabels.length===0\n      ? ''\n\
+          \      : '確認のため、未回答の項目だけ教えてください\\n' + missingLabels.map((l,idx)=>`${idx+1}.\
+          \ ${l}`).join('\\n');\n\n  return { missing_slots_text, missing_count: missingLabels.length\
+          \ };\n}"
+        code_language: javascript
+        outputs:
+          missing_count:
+            children: null
+            type: number
+          missing_slots_text:
+            children: null
+            type: string
+        selected: false
+        title: N30__DELAY__MISSING_LIST__CODE
+        type: code
+        variables:
+        - value_selector:
+          - conversation
+          - cv_slots
+          value_type: object
+          variable: cv_slots
+      height: 52
+      id: '1900000000027'
+      position:
+        x: 5588
+        y: 360
+      positionAbsolute:
+        x: 5588
+        y: 360
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        cases:
+        - case_id: 61d54595-895c-421c-b31c-5401ab50c4af
+          conditions:
+          - comparison_operator: '>'
+            id: 5a8d5e93-24ad-45c7-be94-47212afe8424
+            numberVarType: constant
+            value: '0'
+            varType: number
+            variable_selector:
+            - '1900000000027'
+            - missing_count
+          id: 61d54595-895c-421c-b31c-5401ab50c4af
+          logical_operator: and
+        selected: false
+        title: N30__DELAY__HAS_MISSING__IF
+        type: if-else
+      height: 124
+      id: '1900000000028'
+      position:
+        x: 5931
+        y: 324
+      positionAbsolute:
+        x: 5931
+        y: 324
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: 'function main(inputs){ return { state_value: "ST_ESCALATION_CHECK"
+          }; }'
+        code_language: javascript
+        outputs:
+          state_value:
+            children: null
+            type: string
+        selected: false
+        title: N30__DELAY__AFTER__STATE_CONST__CODE
+        type: code
+        variables: []
+      height: 52
+      id: '1900000000030'
+      position:
+        x: 6637
+        y: 397
+      positionAbsolute:
+        x: 6637
+        y: 397
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        items:
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1900000000030'
+          - state_value
+          variable_selector:
+          - conversation
+          - cv_state
+          write_mode: over-write
+        selected: false
+        title: N30__DELAY__AFTER__SET_STATE__SET
+        type: assigner
+        version: '2'
+      height: 84
+      id: '1900000000031'
+      position:
+        x: 6980
+        y: 381
+      positionAbsolute:
+        x: 6980
+        y: 381
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        memory:
+          enabled: false
+          window:
+            enabled: false
+            size: 10
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: o4-mini
+          provider: langgenius/openai/openai
+        prompt_template:
+        - id: 9198a48f-073c-4ac1-bfee-829de1d9e0b5
+          role: system
+          text: 'あなたは住宅ローン相談のヒアリング担当。
+
+            ユーザー入力から「審査落ち詳細」を抽出し、必ずJSONのみで返す。
+
+            - screening_stage（pre/final）
+
+            - screening_date_months_ago（何ヶ月前）
+
+            - screening_reason_known（理由把握：yes/no）
+
+            - screening_reason_text（理由）
+
+            不明は ""、推測禁止、JSONのみ。'
+        selected: false
+        structured_output: {}
+        structured_output_enabled: false
+        title: N40__SCREEN__COLLECT__LLM
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1900000000032'
+      position:
+        x: 4216
+        y: 547
+      positionAbsolute:
+        x: 4216
+        y: 547
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "function main(inputs){\n  const text=inputs.text??\"\";\n  function\
+          \ safeJsonParse(str){try{return JSON.parse(str);}catch(e){return null;}}\n\
+          \  function toYesNo(v){\n    const s=String(v??\"\").trim().toLowerCase();\n\
+          \    if([\"yes\",\"y\",\"true\",\"1\",\"あり\",\"有\",\"ある\",\"はい\"].includes(s))\
+          \ return \"yes\";\n    if([\"no\",\"n\",\"false\",\"0\",\"なし\",\"無\",\"\
+          ない\",\"いいえ\"].includes(s)) return \"no\";\n    return \"\";\n  }\n  function\
+          \ toNumberOrEmpty(v){\n    if(v===null||v===undefined) return \"\";\n  \
+          \  if(typeof v===\"number\"&&Number.isFinite(v)) return v;\n    const s=String(v).replace(/[\
+          \ ,\\s]/g,\"\").trim();\n    const n=Number(s);\n    return Number.isFinite(n)?n:\"\
+          \";\n  }\n  function normalizeStage(v){\n    const s=String(v??\"\").trim().toLowerCase();\n\
+          \    if([\"pre\",\"事前\",\"仮\",\"仮審査\"].includes(s)) return \"pre\";\n  \
+          \  if([\"final\",\"本\",\"本審査\"].includes(s)) return \"final\";\n    return\
+          \ \"\";\n  }\n  const obj=safeJsonParse(text)||{};\n  const normalized_slots={\n\
+          \    screening_stage: normalizeStage(obj.screening_stage),\n    screening_date_months_ago:\
+          \ toNumberOrEmpty(obj.screening_date_months_ago),\n    screening_reason_known:\
+          \ toYesNo(obj.screening_reason_known),\n    screening_reason_text: String(obj.screening_reason_text??\"\
+          \").trim(),\n  };\n  return { normalized_slots };\n}"
+        code_language: javascript
+        outputs:
+          normalized_slots:
+            children: null
+            type: object
+        selected: false
+        title: N40__SCREEN__NORMALIZE__CODE
+        type: code
+        variables:
+        - value_selector:
+          - '1900000000032'
+          - text
+          value_type: string
+          variable: text
+      height: 52
+      id: '1900000000033'
+      position:
+        x: 4559
+        y: 565
+      positionAbsolute:
+        x: 4559
+        y: 565
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "function main(inputs){\n  const current=(inputs.cv_slots&&typeof inputs.cv_slots===\"\
+          object\")?inputs.cv_slots:{};\n  const next=(inputs.normalized_slots&&typeof\
+          \ inputs.normalized_slots===\"object\")?inputs.normalized_slots:{};\n  const\
+          \ merged={...current,...next};\n  for(const k of Object.keys(next)){\n \
+          \   if(next[k]===\"\"||next[k]===null||next[k]===undefined){\n      if(current[k]!==undefined&&current[k]!==null&&current[k]!==\"\
+          \") merged[k]=current[k];\n    }\n  }\n  return { merged_slots: merged };\n\
+          }"
+        code_language: javascript
+        outputs:
+          merged_slots:
+            children: null
+            type: object
+        selected: false
+        title: N40__SCREEN__MERGE_SLOTS__CODE
+        type: code
+        variables:
+        - value_selector:
+          - conversation
+          - cv_slots
+          value_type: object
+          variable: cv_slots
+        - value_selector:
+          - '1900000000033'
+          - normalized_slots
+          value_type: object
+          variable: normalized_slots
+      height: 52
+      id: '1900000000034'
+      position:
+        x: 4902
+        y: 565
+      positionAbsolute:
+        x: 4902
+        y: 565
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        items:
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1900000000034'
+          - merged_slots
+          variable_selector:
+          - conversation
+          - cv_slots
+          write_mode: over-write
+        selected: false
+        title: N40__SCREEN__SAVE_SLOTS__SET
+        type: assigner
+        version: '2'
+      height: 84
+      id: '1900000000035'
+      position:
+        x: 5245
+        y: 549
+      positionAbsolute:
+        x: 5245
+        y: 549
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "function main(inputs){\n  const slots=(inputs.cv_slots&&typeof inputs.cv_slots==='object')?inputs.cv_slots:{};\n\
+          \  const required=[{\"key\": \"screening_stage\", \"label\": \"事前審査か本審査か（事前/本）\"\
+          }, {\"key\": \"screening_date_months_ago\", \"label\": \"審査落ちが何ヶ月前か\"}];\n\
+          \  const isEmpty=(v)=>v===''||v===null||v===undefined;\n  const missingLabels=required.filter(r=>isEmpty(slots[r.key])).map(r=>r.label);\n\
+          \  const missing_slots_text = missingLabels.length===0 ? '' : '審査状況の確認が必要\\\
+          n' + missingLabels.map((l,idx)=>`${idx+1}. ${l}`).join('\\n');\n  return\
+          \ { missing_slots_text, missing_count: missingLabels.length };\n}"
+        code_language: javascript
+        outputs:
+          missing_count:
+            children: null
+            type: number
+          missing_slots_text:
+            children: null
+            type: string
+        selected: false
+        title: N40__SCREEN__MISSING_LIST__CODE
+        type: code
+        variables:
+        - value_selector:
+          - conversation
+          - cv_slots
+          value_type: object
+          variable: cv_slots
+      height: 52
+      id: '1900000000036'
+      position:
+        x: 5588
+        y: 565
+      positionAbsolute:
+        x: 5588
+        y: 565
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        cases:
+        - case_id: fe198bd9-3acd-410d-93ec-250d0c41ac3d
+          conditions:
+          - comparison_operator: '>'
+            id: f69b4304-1362-4928-a957-88519798d577
+            numberVarType: constant
+            value: '0'
+            varType: number
+            variable_selector:
+            - '1900000000036'
+            - missing_count
+          id: fe198bd9-3acd-410d-93ec-250d0c41ac3d
+          logical_operator: and
+        selected: false
+        title: N40__SCREEN__HAS_MISSING__IF
+        type: if-else
+      height: 124
+      id: '1900000000037'
+      position:
+        x: 5931
+        y: 529
+      positionAbsolute:
+        x: 5931
+        y: 529
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: 'ありがとうございます。
+
+          より正確に状況を整理するため、追加で以下を教えてください（コピペでOKです）。
+
+
+          {{#1900000000036.missing_slots_text#}}
+
+          [[SPLIT]]
+
+          【追加で確認したい内容】
+
+          （例：遅延の回数/最長遅延期間/信用情報の確認有無/債権異動の有無/債務整理の有無/審査落ち時の金融機関名 など）
+
+          ※該当するものだけで大丈夫です。
+
+          ※分かる範囲で構いません。'
+        selected: false
+        title: N40__SCREEN__MISSING_ASK__ANS
+        type: answer
+        variables: []
+      height: 247
+      id: '1900000000038'
+      position:
+        x: 6294
+        y: 618
+      positionAbsolute:
+        x: 6294
+        y: 618
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: 'function main(inputs){ return { state_value: "ST_ESCALATION_CHECK"
+          }; }'
+        code_language: javascript
+        outputs:
+          state_value:
+            children: null
+            type: string
+        selected: false
+        title: N40__SCREEN__AFTER__STATE_CONST__CODE
+        type: code
+        variables: []
+      height: 52
+      id: '1900000000039'
+      position:
+        x: 6294
+        y: 991
+      positionAbsolute:
+        x: 6294
+        y: 991
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        items:
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1900000000039'
+          - state_value
+          variable_selector:
+          - conversation
+          - cv_state
+          write_mode: over-write
+        selected: false
+        title: N40__SCREEN__AFTER__SET_STATE__SET
+        type: assigner
+        version: '2'
+      height: 84
+      id: '1900000000040'
+      position:
+        x: 6637
+        y: 975
+      positionAbsolute:
+        x: 6637
+        y: 975
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "function main(inputs){\n  const slots=(inputs.cv_slots&&typeof inputs.cv_slots==='object')?inputs.cv_slots:{};\n\
+          \  return {\n    has_default_event: String(slots.has_default_event??\"\"\
+          ),\n    has_debt_restructuring: String(slots.has_debt_restructuring??\"\"\
+          )\n  };\n}"
+        code_language: javascript
+        outputs:
+          has_debt_restructuring:
+            children: null
+            type: string
+          has_default_event:
+            children: null
+            type: string
+        selected: false
+        title: N50A__ESC__READ_FLAGS__CODE
+        type: code
+        variables:
+        - value_selector:
+          - conversation
+          - cv_slots
+          value_type: object
+          variable: cv_slots
+      height: 52
+      id: '1900000000041'
+      position:
+        x: 706
+        y: 707
+      positionAbsolute:
+        x: 706
+        y: 707
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        cases:
+        - case_id: 5cd58a7d-e620-4816-bbee-02ea8604bcf2
+          conditions:
+          - comparison_operator: is
+            id: 9a66b35e-de55-4f8b-8fee-4e36ce86a204
+            value: 'yes'
+            varType: string
+            variable_selector:
+            - '1900000000041'
+            - has_default_event
+          id: 5cd58a7d-e620-4816-bbee-02ea8604bcf2
+          logical_operator: and
+        selected: false
+        title: N50__ESC__DEFAULT_EVENT__IF
+        type: if-else
+      height: 124
+      id: '1900000000042'
+      position:
+        x: 1049
+        y: 671
+      positionAbsolute:
+        x: 1049
+        y: 671
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: 'function main(inputs){ return { state_value: "ST_DEFAULT_EVENT_DETAIL"
+          }; }'
+        code_language: javascript
+        outputs:
+          state_value:
+            children: null
+            type: string
+        selected: false
+        title: N51__ESC__STATE_CONST__CODE
+        type: code
+        variables: []
+      height: 52
+      id: '1900000000043'
+      position:
+        x: 1412
+        y: 499
+      positionAbsolute:
+        x: 1412
+        y: 499
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        items:
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1900000000043'
+          - state_value
+          variable_selector:
+          - conversation
+          - cv_state
+          write_mode: over-write
+        selected: false
+        title: N51__ESC__SET_STATE__SET
+        type: assigner
+        version: '2'
+      height: 84
+      id: '1900000000044'
+      position:
+        x: 1755
+        y: 483
+      positionAbsolute:
+        x: 1755
+        y: 483
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        cases:
+        - case_id: ae49668d-2d8c-45bb-901c-41124a717687
+          conditions:
+          - comparison_operator: is
+            id: 07d944bd-6f1e-4128-a250-291608f5daad
+            value: 'yes'
+            varType: string
+            variable_selector:
+            - '1900000000041'
+            - has_debt_restructuring
+          id: ae49668d-2d8c-45bb-901c-41124a717687
+          logical_operator: and
+        selected: false
+        title: N53__ESC__DEBT_RESTRUCT__IF
+        type: if-else
+      height: 124
+      id: '1900000000045'
+      position:
+        x: 1412
+        y: 708
+      positionAbsolute:
+        x: 1412
+        y: 708
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: 'function main(inputs){ return { state_value: "ST_RESTRUCT_DETAIL" };
+          }'
+        code_language: javascript
+        outputs:
+          state_value:
+            children: null
+            type: string
+        selected: false
+        title: N54__ESC__STATE_CONST__CODE
+        type: code
+        variables: []
+      height: 52
+      id: '1900000000046'
+      position:
+        x: 1775
+        y: 648
+      positionAbsolute:
+        x: 1775
+        y: 648
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        items:
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1900000000046'
+          - state_value
+          variable_selector:
+          - conversation
+          - cv_state
+          write_mode: over-write
+        selected: false
+        title: N54__ESC__SET_STATE__SET
+        type: assigner
+        version: '2'
+      height: 84
+      id: '1900000000047'
+      position:
+        x: 2138
+        y: 600
+      positionAbsolute:
+        x: 2138
+        y: 600
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: 'function main(inputs){ return { state_value: "ST_STRATEGY" }; }'
+        code_language: javascript
+        outputs:
+          state_value:
+            children: null
+            type: string
+        selected: false
+        title: N56__ESC__STATE_CONST__CODE
+        type: code
+        variables: []
+      height: 52
+      id: '1900000000048'
+      position:
+        x: 1775
+        y: 781
+      positionAbsolute:
+        x: 1775
+        y: 781
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        items:
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1900000000048'
+          - state_value
+          variable_selector:
+          - conversation
+          - cv_state
+          write_mode: over-write
+        selected: false
+        title: N56__ESC__SET_STATE__SET
+        type: assigner
+        version: '2'
+      height: 84
+      id: '1900000000049'
+      position:
+        x: 2118
+        y: 765
+      positionAbsolute:
+        x: 2118
+        y: 765
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        memory:
+          enabled: false
+          window:
+            enabled: false
+            size: 10
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: o4-mini
+          provider: langgenius/openai/openai
+        prompt_template:
+        - id: 0e026294-c490-40ba-9623-e93217cb0299
+          role: system
+          text: 'あなたは住宅ローン相談のヒアリング担当。
+
+            ユーザー入力から「債権異動（代位弁済/保証履行/債権回収会社へ移管 等）」の詳細を抽出し、JSONのみで返す。
+
+            - default_event_type（種別）
+
+            - default_event_year（発生年）
+
+            - default_event_resolved（解消済みか：yes/no）
+
+            不明は ""、推測禁止、JSONのみ。'
+        selected: false
+        structured_output: {}
+        structured_output_enabled: false
+        title: N60__DEFAULT__COLLECT__LLM
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1900000000050'
+      position:
+        x: 706
+        y: 912
+      positionAbsolute:
+        x: 706
+        y: 912
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "function main(inputs){\n  const text=inputs.text??\"\";\n  function\
+          \ safeJsonParse(str){try{return JSON.parse(str);}catch(e){return null;}}\n\
+          \  function toYesNo(v){\n    const s=String(v??\"\").trim().toLowerCase();\n\
+          \    if([\"yes\",\"y\",\"true\",\"1\",\"あり\",\"有\",\"ある\",\"はい\"].includes(s))\
+          \ return \"yes\";\n    if([\"no\",\"n\",\"false\",\"0\",\"なし\",\"無\",\"\
+          ない\",\"いいえ\"].includes(s)) return \"no\";\n    return \"\";\n  }\n  function\
+          \ toNumberOrEmpty(v){\n    if(v===null||v===undefined) return \"\";\n  \
+          \  if(typeof v===\"number\"&&Number.isFinite(v)) return v;\n    const s=String(v).replace(/[\
+          \ ,\\s]/g,\"\").trim();\n    const n=Number(s);\n    return Number.isFinite(n)?n:\"\
+          \";\n  }\n  const obj=safeJsonParse(text)||{};\n  const normalized_slots={\n\
+          \    default_event_type: String(obj.default_event_type??\"\").trim(),\n\
+          \    default_event_year: toNumberOrEmpty(obj.default_event_year),\n    default_event_resolved:\
+          \ toYesNo(obj.default_event_resolved),\n  };\n  return { normalized_slots\
+          \ };\n}"
+        code_language: javascript
+        outputs:
+          normalized_slots:
+            children: null
+            type: object
+        selected: false
+        title: N60__DEFAULT__NORMALIZE__CODE
+        type: code
+        variables:
+        - value_selector:
+          - '1900000000050'
+          - text
+          value_type: string
+          variable: text
+      height: 52
+      id: '1900000000051'
+      position:
+        x: 1049
+        y: 930
+      positionAbsolute:
+        x: 1049
+        y: 930
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "function main(inputs){\n  const current=(inputs.cv_slots&&typeof inputs.cv_slots===\"\
+          object\")?inputs.cv_slots:{};\n  const next=(inputs.normalized_slots&&typeof\
+          \ inputs.normalized_slots===\"object\")?inputs.normalized_slots:{};\n  const\
+          \ merged={...current,...next};\n  for(const k of Object.keys(next)){\n \
+          \   if(next[k]===\"\"||next[k]===null||next[k]===undefined){\n      if(current[k]!==undefined&&current[k]!==null&&current[k]!==\"\
+          \") merged[k]=current[k];\n    }\n  }\n  return { merged_slots: merged };\n\
+          }"
+        code_language: javascript
+        outputs:
+          merged_slots:
+            children: null
+            type: object
+        selected: false
+        title: N60__DEFAULT__MERGE_SLOTS__CODE
+        type: code
+        variables:
+        - value_selector:
+          - conversation
+          - cv_slots
+          value_type: object
+          variable: cv_slots
+        - value_selector:
+          - '1900000000051'
+          - normalized_slots
+          value_type: object
+          variable: normalized_slots
+      height: 52
+      id: '1900000000052'
+      position:
+        x: 1392
+        y: 930
+      positionAbsolute:
+        x: 1392
+        y: 930
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        items:
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1900000000052'
+          - merged_slots
+          variable_selector:
+          - conversation
+          - cv_slots
+          write_mode: over-write
+        selected: false
+        title: N60__DEFAULT__SAVE_SLOTS__SET
+        type: assigner
+        version: '2'
+      height: 84
+      id: '1900000000053'
+      position:
+        x: 1735
+        y: 914
+      positionAbsolute:
+        x: 1735
+        y: 914
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "function main(inputs){\n  const slots=(inputs.cv_slots&&typeof inputs.cv_slots==='object')?inputs.cv_slots:{};\n\
+          \  const required=[{\"key\": \"default_event_type\", \"label\": \"債権異動の種別（代位弁済など）\"\
+          }, {\"key\": \"default_event_year\", \"label\": \"発生年\"}];\n  const isEmpty=(v)=>v===''||v===null||v===undefined;\n\
+          \  const missingLabels=required.filter(r=>isEmpty(slots[r.key])).map(r=>r.label);\n\
+          \  const missing_slots_text = missingLabels.length===0 ? '' : '債権異動について確認が必要\\\
+          n' + missingLabels.map((l,idx)=>`${idx+1}. ${l}`).join('\\n');\n  return\
+          \ { missing_slots_text, missing_count: missingLabels.length };\n}"
+        code_language: javascript
+        outputs:
+          missing_count:
+            children: null
+            type: number
+          missing_slots_text:
+            children: null
+            type: string
+        selected: false
+        title: N60__DEFAULT__MISSING_LIST__CODE
+        type: code
+        variables:
+        - value_selector:
+          - conversation
+          - cv_slots
+          value_type: object
+          variable: cv_slots
+      height: 52
+      id: '1900000000054'
+      position:
+        x: 2078
+        y: 930
+      positionAbsolute:
+        x: 2078
+        y: 930
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        cases:
+        - case_id: d096c466-bbaf-4e7e-bbc0-fa6587e6fd35
+          conditions:
+          - comparison_operator: '>'
+            id: 292b705f-c02b-4a33-9b3c-1aead68975dd
+            numberVarType: constant
+            value: '0'
+            varType: number
+            variable_selector:
+            - '1900000000054'
+            - missing_count
+          id: d096c466-bbaf-4e7e-bbc0-fa6587e6fd35
+          logical_operator: and
+        selected: false
+        title: N60__DEFAULT__HAS_MISSING__IF
+        type: if-else
+      height: 124
+      id: '1900000000055'
+      position:
+        x: 2421
+        y: 894
+      positionAbsolute:
+        x: 2421
+        y: 894
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: 'ありがとうございます。
+
+          より正確に状況を整理するため、追加で以下を教えてください（コピペでOKです）。
+
+
+          {{#1900000000054.missing_slots_text#}}
+
+          [[SPLIT]]
+
+          【追加で確認したい内容】
+
+          （例：遅延の回数/最長遅延期間/信用情報の確認有無/債権異動の有無/債務整理の有無/審査落ち時の金融機関名 など）
+
+          ※該当するものだけで大丈夫です。
+
+          ※分かる範囲で構いません。'
+        selected: false
+        title: N60__DEFAULT__MISSING_ASK__ANS
+        type: answer
+        variables: []
+      height: 247
+      id: '1900000000056'
+      position:
+        x: 2784
+        y: 783
+      positionAbsolute:
+        x: 2784
+        y: 783
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: 'function main(inputs){ return { state_value: "ST_ESCALATION_CHECK"
+          }; }'
+        code_language: javascript
+        outputs:
+          state_value:
+            children: null
+            type: string
+        selected: false
+        title: N60__DEFAULT__AFTER__STATE_CONST__CODE
+        type: code
+        variables: []
+      height: 52
+      id: '1900000000057'
+      position:
+        x: 2784
+        y: 967
+      positionAbsolute:
+        x: 2784
+        y: 967
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        items:
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1900000000057'
+          - state_value
+          variable_selector:
+          - conversation
+          - cv_state
+          write_mode: over-write
+        selected: false
+        title: N60__DEFAULT__AFTER__SET_STATE__SET
+        type: assigner
+        version: '2'
+      height: 84
+      id: '1900000000058'
+      position:
+        x: 3127
+        y: 951
+      positionAbsolute:
+        x: 3127
+        y: 951
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: '債務整理について確認したい
+
+
+          1) 種類（任意整理/個人再生/自己破産/特定調停/不明）
+
+          2) いつ頃（西暦 or 何年前）
+
+          3) 現在の状態（完済/返済中/手続中/不明）
+
+
+          わかる範囲でまとめて回答してほしい
+
+          '
+        selected: false
+        title: N70__RESTRUCT__ASK__ANS
+        type: answer
+        variables: []
+      height: 180
+      id: '1900000000059'
+      position:
+        x: 706
+        y: 1081
+      positionAbsolute:
+        x: 706
+        y: 1081
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "function main(inputs){\n  const q=String(inputs.query??\"\").trim();\n\
+          \  function pickType(s){\n    if(s.includes(\"任意\")) return \"任意整理\";\n\
+          \    if(s.includes(\"個人再生\")) return \"個人再生\";\n    if(s.includes(\"自己破産\"\
+          )||s.includes(\"破産\")) return \"自己破産\";\n    if(s.includes(\"特定調停\")||s.includes(\"\
+          調停\")) return \"特定調停\";\n    return \"\";\n  }\n  function pickStatus(s){\n\
+          \    if(s.includes(\"完済\")) return \"完済\";\n    if(s.includes(\"返済中\"))\
+          \ return \"返済中\";\n    if(s.includes(\"手続中\")||s.includes(\"申立\")) return\
+          \ \"手続中\";\n    return \"\";\n  }\n  function pickYear(s){\n    const m=s.match(/(19\\\
+          d{2}|20\\d{2})/);\n    if(m) return Number(m[1]);\n    const y=s.match(/(\\\
+          d+)\\s*年\\s*前/);\n    if(y) return `-${Number(y[1])}y`;\n    return \"\"\
+          ;\n  }\n  const normalized_slots={\n    restruct_type: pickType(q),\n  \
+          \  restruct_year: pickYear(q),\n    restruct_status: pickStatus(q),\n  };\n\
+          \  return { normalized_slots };\n}"
+        code_language: javascript
+        outputs:
+          normalized_slots:
+            children: null
+            type: object
+        selected: false
+        title: N71__RESTRUCT__NORMALIZE__CODE
+        type: code
+        variables:
+        - value_selector:
+          - sys
+          - query
+          value_type: string
+          variable: query
+      height: 52
+      id: '1900000000060'
+      position:
+        x: 1049
+        y: 1145
+      positionAbsolute:
+        x: 1049
+        y: 1145
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "function main(inputs){\n  const current=(inputs.cv_slots&&typeof inputs.cv_slots===\"\
+          object\")?inputs.cv_slots:{};\n  const next=(inputs.normalized_slots&&typeof\
+          \ inputs.normalized_slots===\"object\")?inputs.normalized_slots:{};\n  const\
+          \ merged={...current,...next};\n  for(const k of Object.keys(next)){\n \
+          \   if(next[k]===\"\"||next[k]===null||next[k]===undefined){\n      if(current[k]!==undefined&&current[k]!==null&&current[k]!==\"\
+          \") merged[k]=current[k];\n    }\n  }\n  return { merged_slots: merged };\n\
+          }"
+        code_language: javascript
+        outputs:
+          merged_slots:
+            children: null
+            type: object
+        selected: false
+        title: N72__RESTRUCT__MERGE_SLOTS__CODE
+        type: code
+        variables:
+        - value_selector:
+          - conversation
+          - cv_slots
+          value_type: object
+          variable: cv_slots
+        - value_selector:
+          - '1900000000060'
+          - normalized_slots
+          value_type: object
+          variable: normalized_slots
+      height: 52
+      id: '1900000000061'
+      position:
+        x: 1392
+        y: 1145
+      positionAbsolute:
+        x: 1392
+        y: 1145
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        items:
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1900000000061'
+          - merged_slots
+          variable_selector:
+          - conversation
+          - cv_slots
+          write_mode: over-write
+        selected: false
+        title: N72A__RESTRUCT__SAVE_SLOTS__SET
+        type: assigner
+        version: '2'
+      height: 84
+      id: '1900000000062'
+      position:
+        x: 1735
+        y: 1129
+      positionAbsolute:
+        x: 1735
+        y: 1129
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "function main(inputs){\n  const slots=(inputs.cv_slots&&typeof inputs.cv_slots==='object')?inputs.cv_slots:{};\n\
+          \  const required=[\n    {key:\"restruct_type\",label:\"債務整理の種類\"},\n  \
+          \  {key:\"restruct_year\",label:\"実施時期（西暦 or 何年前）\"},\n    {key:\"restruct_status\"\
+          ,label:\"現在の状態（完済/返済中など）\"},\n  ];\n  const isEmpty=(v)=>v===''||v===null||v===undefined;\n\
+          \  const missingLabels=required.filter(r=>isEmpty(slots[r.key])).map(r=>r.label);\n\
+          \  const missing_slots_text = missingLabels.length===0 ? '' :\n    '債務整理について不足がある\\\
+          n' + missingLabels.map((l,idx)=>`${idx+1}. ${l}`).join('\\n');\n  return\
+          \ { missing_slots_text, missing_count: missingLabels.length };\n}"
+        code_language: javascript
+        outputs:
+          missing_count:
+            children: null
+            type: number
+          missing_slots_text:
+            children: null
+            type: string
+        selected: false
+        title: N73__RESTRUCT__MISSING_LIST__CODE
+        type: code
+        variables:
+        - value_selector:
+          - conversation
+          - cv_slots
+          value_type: object
+          variable: cv_slots
+      height: 52
+      id: '1900000000063'
+      position:
+        x: 2078
+        y: 1145
+      positionAbsolute:
+        x: 2078
+        y: 1145
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        cases:
+        - case_id: c68b26a6-d482-44c0-8145-8047b9f62993
+          conditions:
+          - comparison_operator: '>'
+            id: 95067abd-a497-4555-b10a-ecc7c0a9b8cd
+            numberVarType: constant
+            value: '0'
+            varType: number
+            variable_selector:
+            - '1900000000063'
+            - missing_count
+          id: c68b26a6-d482-44c0-8145-8047b9f62993
+          logical_operator: and
+        selected: false
+        title: N74__RESTRUCT__HAS_MISSING__IF
+        type: if-else
+      height: 124
+      id: '1900000000064'
+      position:
+        x: 2421
+        y: 1109
+      positionAbsolute:
+        x: 2421
+        y: 1109
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: '{{#1900000000063.missing_slots_text#}}
+
+          '
+        selected: false
+        title: N75__RESTRUCT__MISSING_ASK__ANS
+        type: answer
+        variables: []
+      height: 103
+      id: '1900000000065'
+      position:
+        x: 2784
+        y: 1100
+      positionAbsolute:
+        x: 2784
+        y: 1100
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: 'function main(inputs){ return { state_value: "ST_STRATEGY" }; }'
+        code_language: javascript
+        outputs:
+          state_value:
+            children: null
+            type: string
+        selected: false
+        title: N76__RESTRUCT__STATE_CONST__CODE
+        type: code
+        variables: []
+      height: 52
+      id: '1900000000066'
+      position:
+        x: 2784
+        y: 1284
+      positionAbsolute:
+        x: 2784
+        y: 1284
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        items:
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1900000000066'
+          - state_value
+          variable_selector:
+          - conversation
+          - cv_state
+          write_mode: over-write
+        selected: false
+        title: N76__RESTRUCT__SET_STATE__SET
+        type: assigner
+        version: '2'
+      height: 84
+      id: '1900000000067'
+      position:
+        x: 3127
+        y: 1268
+      positionAbsolute:
+        x: 3127
+        y: 1268
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        memory:
+          enabled: false
+          role_prefix:
+            assistant: ''
+            user: ''
+          window:
+            enabled: false
+            size: 10
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: o4-mini
+          provider: langgenius/openai/openai
+        prompt_template:
+        - id: 035c4dca-2c14-4a44-8e61-85d8f1a6fc84
+          role: system
+          text: "あなたは「いえすま」の住宅ローン審査支援担当。\nconversation.cv_slots を前提に、次に案内すべきアクションを1つに確定し、LINE返信文を作る。\n\
+            \n【前提：単位】\n- annual_income / loan_total_amount / monthly_repayment_total\
+            \ は「万円」単位（例：年収800万→800）\n\n【判断の核（マニュアル準拠）】\n- has_delinquency == \"yes\"\
+            \ の場合：\n  - delinquency_count が 1〜5：電話相談の打診（短時間で整理すれば可能性判断できる文脈）\n  -\
+            \ delinquency_count が 6以上 または delinquency_is_repeated == \"yes\"：CIC等の信用情報確認を優先（電話は“整理のため”として提案）\n\
+            - has_default_event == \"yes\" / has_debt_restructuring == \"yes\"：時期・解消状況の確認を優先し、必要なら電話提案\n\
+            - has_past_screening_failure == \"yes\"：否決理由の有無を確認しつつ、銀行/出し方で変わる可能性を残す\n\
+            \n【背景ヒアリング（ST_BG_COLLECTの結果）】\n- bg_category / bg_summary があれば、その不安に寄り添う一言→次の質問\
+            \ or 次アクションへつなぐ\n  - other_realtor_denied：断られた理由（借入/勤続/物件など）を一言で確認\n \
+            \ - desired_amount_short：希望額と自己資金/物件価格感を確認\n  - past_denial：どの金融機関で・事前/本・理由を確認\n\
+            \  - just_in_case：安心材料として次の一手を提示\n\n【出力形式】\n必ずJSONのみで返す\n- reply_text:\
+            \ ユーザー向け返信文（改行OK）\n- next_state: 次state（使わないなら空文字）\n\n【トーン】\n- 丁寧・安心感・断定しすぎない\n\
+            - 1メッセージで読める長さ（長い場合は箇条書き）\n"
+        selected: false
+        structured_output: {}
+        structured_output_enabled: false
+        title: N80__STRATEGY__LLM
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1900000000068'
+      position:
+        x: 2138
+        y: 1282
+      positionAbsolute:
+        x: 2138
+        y: 1282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "function main(inputs){\n  const text=inputs.text??\"\";\n  function\
+          \ safeJsonParse(str){try{return JSON.parse(str);}catch(e){return null;}}\n\
+          \  const obj=safeJsonParse(text)||{};\n  const reply_text=String(obj.reply_text??\"\
+          \").trim();\n  const next_state=String(obj.next_state??\"\").trim();\n \
+          \ return { reply_text, next_state };\n}"
+        code_language: javascript
+        outputs:
+          next_state:
+            children: null
+            type: string
+          reply_text:
+            children: null
+            type: string
+        selected: false
+        title: N81__STRATEGY__NORMALIZE__CODE
+        type: code
+        variables:
+        - value_selector:
+          - '1900000000068'
+          - text
+          value_type: string
+          variable: text
+      height: 52
+      id: '1900000000069'
+      position:
+        x: 2501
+        y: 1451
+      positionAbsolute:
+        x: 2501
+        y: 1451
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: 'ご共有いただきありがとうございます。初めての住宅ローンだと不安になりますよね…。
+
+
+          頂いた内容を拝見する限り、住宅ローン自体は問題なく通せる可能性が高いと考えております。
+
+          ただ、金融機関ごとに審査の考え方が異なるため、「どこに、どう出すか」という戦略次第で条件面も変わります。
+
+
+          弊社は元銀行員の知見に加え、宅建・建築の両面からサポートできる体制があるため、文章で往復するよりも一度お電話で整理したほうが早いです。
+
+          差し支えなければ、10分ほどお電話で状況を整理して次の一手をご案内してもよろしいでしょうか？
+
+
+          ご都合の良いお時間帯（例：平日昼/平日夜/土日、だいたいでOK）を教えてください。
+
+          '
+        selected: false
+        title: N82__STRATEGY__ANSWER__ANS
+        type: answer
+        variables: []
+      height: 372
+      id: '1900000000070'
+      position:
+        x: 2864
+        y: 1417
+      positionAbsolute:
+        x: 2864
+        y: 1417
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: 'function main(inputs){ return { state_value: "ST_COLLECT_BASE" }; }'
+        code_language: javascript
+        outputs:
+          state_value:
+            children: null
+            type: string
+        selected: false
+        title: N84__STRATEGY__STATE_CONST__CODE
+        type: code
+        variables: []
+      height: 52
+      id: '1900000000071'
+      position:
+        x: 2864
+        y: 1601
+      positionAbsolute:
+        x: 2864
+        y: 1601
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        items:
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1900000000071'
+          - state_value
+          variable_selector:
+          - conversation
+          - cv_state
+          write_mode: over-write
+        selected: false
+        title: N84__STRATEGY__SET_STATE__SET
+        type: assigner
+        version: '2'
+      height: 84
+      id: '1900000000072'
+      position:
+        x: 3207
+        y: 1584.5
+      positionAbsolute:
+        x: 3207
+        y: 1584.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        memory:
+          enabled: false
+          window:
+            enabled: false
+            size: 10
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: o4-mini
+          provider: langgenius/openai/openai
+        prompt_template:
+        - id: 0b37d421-fc6e-4775-8696-4b6f2b0b2258
+          role: system
+          text: '会話状態が不明。
+
+            ユーザーに負担をかけずに共通8項目へ戻す短い誘導文を作る。
+
+            出力はJSONのみ：{"reply_text":"..."}'
+        selected: false
+        structured_output: {}
+        structured_output_enabled: false
+        title: N90__FALLBACK__LLM
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1900000000073'
+      position:
+        x: 706
+        y: 1379
+      positionAbsolute:
+        x: 706
+        y: 1379
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "function main(inputs){\n  const text=inputs.text??\"\";\n  function\
+          \ safeJsonParse(str){try{return JSON.parse(str);}catch(e){return null;}}\n\
+          \  const obj=safeJsonParse(text)||{};\n  return { reply_text: String(obj.reply_text??\"\
+          \").trim() };\n}"
+        code_language: javascript
+        outputs:
+          reply_text:
+            children: null
+            type: string
+        selected: false
+        title: N91A__FALLBACK__NORMALIZE__CODE
+        type: code
+        variables:
+        - value_selector:
+          - '1900000000073'
+          - text
+          value_type: string
+          variable: text
+      height: 52
+      id: '1900000000074'
+      position:
+        x: 1049
+        y: 1397
+      positionAbsolute:
+        x: 1049
+        y: 1397
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: '{{#1900000000074.reply_text#}}
+
+          '
+        selected: false
+        title: N91__FALLBACK__ANSWER__ANS
+        type: answer
+        variables: []
+      height: 103
+      id: '1900000000075'
+      position:
+        x: 1412
+        y: 1363
+      positionAbsolute:
+        x: 1412
+        y: 1363
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: 'function main(inputs){ return { state_value: "ST_COLLECT_BASE" }; }'
+        code_language: javascript
+        outputs:
+          state_value:
+            children: null
+            type: string
+        selected: false
+        title: N92__FALLBACK__STATE_CONST__CODE
+        type: code
+        variables: []
+      height: 52
+      id: '1900000000076'
+      position:
+        x: 1412
+        y: 1547
+      positionAbsolute:
+        x: 1412
+        y: 1547
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        items:
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1900000000076'
+          - state_value
+          variable_selector:
+          - conversation
+          - cv_state
+          write_mode: over-write
+        selected: false
+        title: N92__FALLBACK__SET_STATE__SET
+        type: assigner
+        version: '2'
+      height: 84
+      id: '1900000000077'
+      position:
+        x: 1775
+        y: 1499
+      positionAbsolute:
+        x: 1775
+        y: 1499
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: 'function main(inputs){ return { state_value: "ST_BG_COLLECT" }; }'
+        code_language: javascript
+        outputs:
+          state_value:
+            children: null
+            type: string
+        selected: false
+        title: N24__GOOD_CASE__STATE_CONST__CODE
+        type: code
+        variables: []
+      height: 52
+      id: '1900000000078'
+      position:
+        x: 4559
+        y: 121
+      positionAbsolute:
+        x: 4559
+        y: 121
+      type: custom
+      width: 242
+    - data:
+        items:
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1900000000078'
+          - state_value
+          variable_selector:
+          - conversation
+          - cv_state
+          write_mode: over-write
+        selected: false
+        title: N25__GOOD_CASE__SET_STATE__SET
+        type: assigner
+        version: v2
+      height: 52
+      id: '1900000000079'
+      position:
+        x: 4902
+        y: 121
+      positionAbsolute:
+        x: 4902
+        y: 121
+      type: custom
+      width: 242
+    - data:
+        answer: '弊社フォーマットに沿ってのご回答、ありがとうございます。
+
+          頂いた内容を拝見する限り、住宅ローンについては問題なく通せると考えております。
+
+
+          ちなみにですが、今回お問い合わせ頂きました背景として、「他の不動産会社に断られた」「融資額が希望額に届かない」など、何かご不安やご懸念はございますでしょうか？
+
+          '
+        selected: false
+        title: N26__GOOD_CASE__ANS
+        type: answer
+        variables: []
+      height: 228
+      id: '1900000000080'
+      position:
+        x: 4216
+        y: 33
+      positionAbsolute:
+        x: 4216
+        y: 33
+      selected: false
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        memory:
+          enabled: false
+          window:
+            enabled: false
+            size: 10
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: o4-mini
+          provider: langgenius/openai/openai
+        prompt_template:
+        - id: f01af357-059b-4e7a-a36c-48fcb52e526b
+          role: system
+          text: 'あなたは住宅ローン相談の担当。
+
+            ユーザーの回答（不安・懸念・背景）を要約し、カテゴリ分類してJSONのみで返す。
+
+
+            出力JSON:
+
+            - bg_summary: 1文要約（最大40字程度）
+
+            - bg_category: 次のいずれか（other_realtor_denied / desired_amount_short / past_denial
+            / just_in_case / other）
+
+            - bg_detail: ユーザー文を損なわず短く補足（最大120字）
+
+
+            ルール:
+
+            - 推測で膨らませない
+
+            - JSONのみ'
+        - id: 9774d60e-e628-459c-80b5-937214b932cf
+          role: user
+          text: '以下のユーザー入力を処理
+
+            {{query}}'
+        selected: false
+        structured_output: {}
+        structured_output_enabled: false
+        title: N27__BG__COLLECT__LLM
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1900000000081'
+      position:
+        x: 706
+        y: 1662
+      positionAbsolute:
+        x: 706
+        y: 1662
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "function main(inputs){\n  const text = inputs.text;\n  function safeJsonParse(str){\
+          \ try{return JSON.parse(str);}catch(e){return null;} }\n  const obj = safeJsonParse(text)\
+          \ || {};\n  const bg_slots = {\n    bg_summary: String(obj.bg_summary ??\
+          \ \"\").trim(),\n    bg_category: String(obj.bg_category ?? \"\").trim(),\n\
+          \    bg_detail: String(obj.bg_detail ?? \"\").trim(),\n  };\n  return {\
+          \ normalized_slots: bg_slots };\n}"
+        code_language: javascript
+        outputs:
+          normalized_slots:
+            children: null
+            type: object
+        selected: false
+        title: N28__BG__NORMALIZE__CODE
+        type: code
+        variables:
+        - value_selector:
+          - '1900000000081'
+          - text
+          value_type: string
+          variable: text
+      height: 52
+      id: '1900000000082'
+      position:
+        x: 1089
+        y: 1680
+      positionAbsolute:
+        x: 1089
+        y: 1680
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "function main(inputs){\n  const current=(inputs.cv_slots&&typeof inputs.cv_slots===\"\
+          object\")?inputs.cv_slots:{};\n  const next=(inputs.normalized_slots&&typeof\
+          \ inputs.normalized_slots===\"object\")?inputs.normalized_slots:{};\n  const\
+          \ merged={...current,...next};\n  for(const k of Object.keys(next)){\n \
+          \   if(next[k]===\"\"||next[k]===null||next[k]===undefined){\n      if(current[k]!==undefined&&current[k]!==null&&current[k]!==\"\
+          \") merged[k]=current[k];\n    }\n  }\n  return { merged_slots: merged };\n\
+          }"
+        code_language: javascript
+        outputs:
+          merged_slots:
+            children: null
+            type: object
+        selected: false
+        title: N29__BG__MERGE_SLOTS__CODE
+        type: code
+        variables:
+        - value_selector:
+          - conversation
+          - cv_slots
+          value_type: object
+          variable: cv_slots
+        - value_selector:
+          - '1900000000082'
+          - normalized_slots
+          value_type: object
+          variable: normalized_slots
+      height: 52
+      id: '1900000000083'
+      position:
+        x: 1432
+        y: 1680
+      positionAbsolute:
+        x: 1432
+        y: 1680
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        items:
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1900000000083'
+          - merged_slots
+          variable_selector:
+          - conversation
+          - cv_slots
+          write_mode: over-write
+        selected: false
+        title: N30__BG__SAVE_SLOTS__SET
+        type: assigner
+        version: '2'
+      height: 84
+      id: '1900000000084'
+      position:
+        x: 1775
+        y: 1664
+      positionAbsolute:
+        x: 1775
+        y: 1664
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: '弊社フォーマットに沿ってのご回答、ありがとうございます。
+
+          頂いた内容を拝見する限り、住宅ローンについては問題なく通せると考えております。
+
+
+          ちなみにですが、今回お問い合わせ頂きました背景として、「他の不動産会社に断られた」「融資額が希望額に届かない」など、何かご不安やご懸念はございますでしょうか？
+
+          '
+        selected: false
+        title: N30__DELAY__AFTER__ANSWER__ANS
+        type: answer
+        variables: []
+      height: 228
+      id: '1771118056254'
+      position:
+        x: 6294
+        y: 309
+      positionAbsolute:
+        x: 6294
+        y: 309
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: 'ありがとうございます。遅延の状況によって進め方が変わるため、次の5点を分かる範囲で教えてください（コピペでOK）
+
+
+          1) 遅延回数：2〜3回／4〜6回／7回以上
+
+          2) 最長遅延期間：2〜3日／4〜6日／7日以上
+
+          3) 信用情報（CIC/JICC）の開示：あり／なし
+
+          4) 債権異動：あり／なし／不明
+
+          5) 債務整理・自己破産：あり／なし
+
+          '
+        selected: false
+        title: N30__DELAY__ASK_SEVERITY__ANS
+        type: answer
+        variables: []
+      height: 228
+      id: '1771120053099'
+      position:
+        x: 6294
+        y: 0
+      positionAbsolute:
+        x: 6294
+        y: 0
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: 'function main(inputs){ return { state_value: "ST_STRATEGY" }; }'
+        code_language: javascript
+        outputs:
+          state_value:
+            children: null
+            type: string
+        selected: false
+        title: N31__BG__STATE_CONST__CODE
+        type: code
+        variables: []
+      height: 52
+      id: 499360b5-2987-431c-9d1c-d308af13b78f
+      position:
+        x: 2138
+        y: 1694
+      positionAbsolute:
+        x: 2138
+        y: 1694
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        items:
+        - input_type: variable
+          operation: over-write
+          value:
+          - 499360b5-2987-431c-9d1c-d308af13b78f
+          - state_value
+          variable_selector:
+          - conversation
+          - cv_state
+          write_mode: over-write
+        selected: false
+        title: N32__BG__SET_STATE__SET
+        type: assigner
+        version: '2'
+      height: 84
+      id: 72203734-1a4b-4968-a09f-c718b4f4e8da
+      position:
+        x: 2481
+        y: 1678
+      positionAbsolute:
+        x: 2481
+        y: 1678
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: 'function main(inputs){ return { state_value: "ST_SCHEDULING" }; }'
+        code_language: javascript
+        outputs:
+          state_value:
+            children: null
+            type: string
+        selected: false
+        title: N83__SCHED__STATE_CONST__CODE
+        type: code
+        variables: []
+      height: 52
+      id: 7f16a770-b7aa-47c3-a904-b8df6a1d7252
+      position:
+        x: 3244
+        y: 1417
+      positionAbsolute:
+        x: 3244
+        y: 1417
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        items:
+        - input_type: variable
+          operation: over-write
+          value:
+          - 7f16a770-b7aa-47c3-a904-b8df6a1d7252
+          - state_value
+          variable_selector:
+          - conversation
+          - cv_state
+          write_mode: over-write
+        selected: false
+        title: N84__SCHED__SET_STATE__SET
+        type: assigner
+        version: '2'
+      height: 84
+      id: 22eecb4a-c580-4f30-a4e5-b0d0d2ee4d7f
+      position:
+        x: 3624
+        y: 1417
+      positionAbsolute:
+        x: 3624
+        y: 1417
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: '候補日時のご提示ありがとうございます。
+
+          担当の予定を確認しますので、少々お待ちください。'
+        selected: false
+        title: N85__SCHED__ACK__ANS
+        type: answer
+        variables: []
+      height: 132
+      id: b9863277-6ec7-4f2e-bc49-31f49a388fe0
+      position:
+        x: 4004
+        y: 1637
+      positionAbsolute:
+        x: 4004
+        y: 1637
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "function main(inputs){\n  const slots=(inputs.cv_slots&&typeof inputs.cv_slots==='object')?inputs.cv_slots:{};\n\
+          \  const debt = String(slots.debt_relief_status??\"\").trim().toLowerCase();\n\
+          \  const assign = String(slots.assignment_status??\"\").trim().toLowerCase();\n\
+          \  const credit = String(slots.has_credit_report??\"\").trim().toLowerCase();\n\
+          \n  let next_action=\"PRO_DIAG\";\n  if(debt===\"yes\") next_action=\"DEBT_RELIEF\"\
+          ;\n  else if(assign===\"yes\") next_action=\"ASSIGNMENT\";\n  else if(credit===\"\
+          yes\") next_action=\"CREDIT_SHARE\";\n  else next_action=\"PRO_DIAG\";\n\
+          \n  return { next_action };\n}"
+        code_language: javascript
+        outputs:
+          next_action:
+            children: null
+            type: string
+        selected: false
+        title: N30__DELAY__DECIDE__CODE
+        type: code
+        variables:
+        - value_selector:
+          - conversation
+          - cv_slots
+          value_type: object
+          variable: cv_slots
+      height: 52
+      id: '1900000001167'
+      position:
+        x: 1050
+        y: 1260
+      positionAbsolute:
+        x: 1050
+        y: 1260
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        cases:
+        - case_id: case_debt
+          conditions:
+          - comparison_operator: is
+            id: a3e9502b-9c3e-4bc1-a8f8-39a9d59908f7
+            value: DEBT_RELIEF
+            varType: string
+            variable_selector:
+            - '1900000001167'
+            - next_action
+          id: dca12d56-ec2c-4268-9047-7513c536ddeb
+          logical_operator: and
+        - case_id: case_assign
+          conditions:
+          - comparison_operator: is
+            id: ad2212bd-d7ed-455c-8a75-2407012bfe62
+            value: ASSIGNMENT
+            varType: string
+            variable_selector:
+            - '1900000001167'
+            - next_action
+          id: 27dfce78-49af-4b2f-a932-6c54638acb0f
+          logical_operator: and
+        - case_id: case_share
+          conditions:
+          - comparison_operator: is
+            id: e8d8370c-95ab-4033-b6b2-793ecd9463d6
+            value: CREDIT_SHARE
+            varType: string
+            variable_selector:
+            - '1900000001167'
+            - next_action
+          id: e3518ad7-380d-426b-b410-91b5a601396b
+          logical_operator: and
+        - case_id: case_pro
+          conditions:
+          - comparison_operator: is
+            id: 0c3421b6-b3c2-45e0-8cc5-388e1f4740b1
+            value: PRO_DIAG
+            varType: string
+            variable_selector:
+            - '1900000001167'
+            - next_action
+          id: 5a84a794-8aa9-460c-88d3-43cc686117f5
+          logical_operator: and
+        selected: false
+        title: N30__DELAY__DECIDE__IF
+        type: if-else
+      height: 268
+      id: '1900000001168'
+      position:
+        x: 1310
+        y: 1245
+      positionAbsolute:
+        x: 1310
+        y: 1245
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: 'function main(inputs){ return { state_value: "ST_SCHEDULING" }; }'
+        code_language: javascript
+        outputs:
+          state_value:
+            children: null
+            type: string
+        selected: false
+        title: N30__DELAY__DEBT_RELIEF__STATE_CONST__CODE
+        type: code
+        variables: []
+      height: 52
+      id: '1900000001169'
+      position:
+        x: 1560
+        y: 1140
+      positionAbsolute:
+        x: 1560
+        y: 1140
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        items:
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1900000001169'
+          - state_value
+          variable_selector:
+          - conversation
+          - cv_state
+          write_mode: over-write
+        selected: false
+        title: N30__DELAY__DEBT_RELIEF__SET_STATE__SET
+        type: assigner
+        version: '2'
+      height: 84
+      id: '1900000001170'
+      position:
+        x: 1820
+        y: 1140
+      positionAbsolute:
+        x: 1820
+        y: 1140
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: 'ありがとうございます。
+
+          債務整理・自己破産の履歴がある場合、住宅ローン可否は「完済済みか」と「完済時期」が最重要。
+
+
+          差し支えなければ次の2点を教えてください（分かる範囲でOK）
+
+          1) 返済はすでに完済：はい／いいえ
+
+          2) 完済している場合：完済したのはいつ頃（例：2021年6月、3年前など）
+
+          （返済中の場合：完済予定の時期）
+
+
+          購入を急いでいる場合、配偶者名義で進められる可能性も含めて電話で整理したいので、可能な候補日時を2〜3つください'
+        selected: false
+        title: N30__DELAY__DEBT_RELIEF__ANS
+        type: answer
+        variables: []
+      height: 292
+      id: '1900000001171'
+      position:
+        x: 2080
+        y: 1130
+      positionAbsolute:
+        x: 2080
+        y: 1130
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: 'function main(inputs){ return { state_value: "ST_SCHEDULING" }; }'
+        code_language: javascript
+        outputs:
+          state_value:
+            children: null
+            type: string
+        selected: false
+        title: N30__DELAY__ASSIGNMENT__STATE_CONST__CODE
+        type: code
+        variables: []
+      height: 52
+      id: '1900000001174'
+      position:
+        x: 1560
+        y: 1380
+      positionAbsolute:
+        x: 1560
+        y: 1380
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        items:
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1900000001174'
+          - state_value
+          variable_selector:
+          - conversation
+          - cv_state
+          write_mode: over-write
+        selected: false
+        title: N30__DELAY__ASSIGNMENT__SET_STATE__SET
+        type: assigner
+        version: '2'
+      height: 84
+      id: '1900000001175'
+      position:
+        x: 1820
+        y: 1380
+      positionAbsolute:
+        x: 1820
+        y: 1380
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: 'ありがとうございます。
+
+          債権異動がある場合は「異動の解消時期」が重要。
+
+
+          差し支えなければ次の2点を教えてください（分かる範囲でOK）
+
+          1) 異動はすでに解消：はい／いいえ／不明
+
+          2) 解消している場合：解消したのはいつ頃（例：2022年、2年前など）
+
+          （不明ならそのままでOK）
+
+
+          購入を急いでいる場合、配偶者名義で進められる可能性も含めて電話で整理したいので、可能な候補日時を2〜3つください'
+        selected: false
+        title: N30__DELAY__ASSIGNMENT__ANS
+        type: answer
+        variables: []
+      height: 276
+      id: '1900000001176'
+      position:
+        x: 2080
+        y: 1370
+      positionAbsolute:
+        x: 2080
+        y: 1370
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: 'function main(inputs){ return { state_value: "ST_STRATEGY" }; }'
+        code_language: javascript
+        outputs:
+          state_value:
+            children: null
+            type: string
+        selected: false
+        title: N30__DELAY__CREDIT_SHARE__STATE_CONST__CODE
+        type: code
+        variables: []
+      height: 52
+      id: '1900000001179'
+      position:
+        x: 1560
+        y: 1620
+      positionAbsolute:
+        x: 1560
+        y: 1620
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        items:
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1900000001179'
+          - state_value
+          variable_selector:
+          - conversation
+          - cv_state
+          write_mode: over-write
+        selected: false
+        title: N30__DELAY__CREDIT_SHARE__SET_STATE__SET
+        type: assigner
+        version: '2'
+      height: 84
+      id: '1900000001180'
+      position:
+        x: 1820
+        y: 1620
+      positionAbsolute:
+        x: 1820
+        y: 1620
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: '過去にご自身の信用情報（CICやJICCなど）を開示されたことがあるとのことですね。
+
+          可能であれば、お取り寄せされた信用情報（CICやJICCなど）を共有頂くことは可能でしょうか？
+
+          ご共有頂けましたら、こちらで内容を確認し、住宅ローン可否と次の打ち手をご案内できます。
+
+
+          共有頂ける場合は、下記より必要書類のアップロードをお願いします。
+
+
+          【必要書類】
+
+          📄 身分証明書（表・裏）
+
+          👉【 https://myfm.jp/9T5TRz?mode=example 】
+
+
+          📄 源泉徴収票 または 給与明細（お持ちの分だけ）
+
+          👉【 https://myfm.jp/RfKujI?mode=example 】
+
+
+          📄 確定申告書（自営業・個人事業主の方、または収入源が2つ以上ある方）
+
+          👉【 https://myfm.jp/0VLqYR?mode=example 】
+
+
+          📄 CIC（信用情報）
+
+          👉【 https://myfm.jp/exTnjH?mode=example 】
+
+
+          📄 返済予定表（現在お借入れがある場合）
+
+          👉【 https://myfm.jp/47jqNA?mode=example 】
+
+
+          アップロード完了後、こちらで確認のうえご連絡します。'
+        selected: false
+        title: N30__DELAY__CREDIT_SHARE__ANS
+        type: answer
+        variables: []
+      height: 484
+      id: '1900000001181'
+      position:
+        x: 2080
+        y: 1610
+      positionAbsolute:
+        x: 2080
+        y: 1610
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: 'function main(inputs){ return { state_value: "ST_PRO_DIAG_OFFER" };
+          }'
+        code_language: javascript
+        outputs:
+          state_value:
+            children: null
+            type: string
+        selected: false
+        title: N30__DELAY__PRO_DIAG__STATE_CONST__CODE
+        type: code
+        variables: []
+      height: 52
+      id: '1900000001184'
+      position:
+        x: 1560
+        y: 1860
+      positionAbsolute:
+        x: 1560
+        y: 1860
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        items:
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1900000001184'
+          - state_value
+          variable_selector:
+          - conversation
+          - cv_state
+          write_mode: over-write
+        selected: false
+        title: N30__DELAY__PRO_DIAG__SET_STATE__SET
+        type: assigner
+        version: '2'
+      height: 84
+      id: '1900000001185'
+      position:
+        x: 1820
+        y: 1860
+      positionAbsolute:
+        x: 1820
+        y: 1860
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: '過去に信用情報（CIC/JICC）の開示はまだとのことですね。
+
+          今のご状況で、どの銀行に可能性があるか／どこが難しいかを把握するために、弊社には銀行と同じ信用情報が確認できるサービスがあります。
+
+          今すぐ購入を決める必要はありませんので、判断材料として一度確認していただければと思います。
+
+
+          弊社では住宅ローンの申請が通るか、事前の診断が可能です。
+
+          銀行などが参照する信用情報と同じデータを使用し、約1分で精度の高い診断結果を確認できます。
+
+          ※事前審査とは無関係のため、信用情報に記録は残りません。
+
+          ※個人事業主の方もご利用可能（その場合は「会社員」をご選択ください）
+
+
+          ◆プロ住宅ローン診断フォーム
+
+          https://1min-assmt.home-loan.jp/?partnerId=025cbb0b-06ca-49d6-906c-6cd59f85dcd2
+
+
+          ⚠️「営業担当者」は【南手 ちなみ】を必ずご選択ください。
+
+          LINE名がフルネームでない場合は、診断後にフルネームもお知らせください。'
+        selected: false
+        title: N30__DELAY__PRO_DIAG__ANS
+        type: answer
+        variables: []
+      height: 468
+      id: '1900000001186'
+      position:
+        x: 2080
+        y: 1850
+      positionAbsolute:
+        x: 2080
+        y: 1850
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "function main(inputs){\n  const q = String(inputs.query ?? \"\").trim().toLowerCase();\n\
+          \  let wants = \"\";\n  if(!q) wants=\"\";\n  else if([\"はい\",\"yes\",\"\
+          y\",\"する\",\"お願いします\",\"やりたい\",\"希望\",\"ok\",\"了解\"].some(k=>q===k || q.includes(k)))\
+          \ wants=\"yes\";\n  else if([\"いいえ\",\"no\",\"n\",\"しない\",\"不要\",\"やめる\"\
+          ,\"やらない\",\"今回はやめ\",\"結構です\"].some(k=>q===k || q.includes(k))) wants=\"\
+          no\";\n  return { wants_pro_diag: wants };\n}"
+        code_language: javascript
+        outputs:
+          wants_pro_diag:
+            children: null
+            type: string
+        selected: false
+        title: N200__PRO_DIAG_OFFER__READ_KEYS__CODE
+        type: code
+        variables:
+        - value_selector:
+          - sys
+          - query
+          value_type: string
+          variable: query
+      height: 52
+      id: '1900000001300'
+      position:
+        x: 4200
+        y: 1850
+      positionAbsolute:
+        x: 4200
+        y: 1850
+      type: custom
+      width: 242
+    - data:
+        cases:
+        - case_id: case_yes
+          conditions:
+          - comparison_operator: is
+            id: 08b610a2-3889-4a7e-8fd9-ca693e8d3b97
+            value: 'yes'
+            varType: string
+            variable_selector:
+            - '1900000001300'
+            - wants_pro_diag
+          id: 0e14aa14-15b8-48bc-99f1-167ccbea618b
+          logical_operator: and
+        - case_id: case_no
+          conditions:
+          - comparison_operator: is
+            id: 6ae7b232-e61a-4ef5-ac57-0e5f7b2b08cc
+            value: 'no'
+            varType: string
+            variable_selector:
+            - '1900000001300'
+            - wants_pro_diag
+          id: c42e799f-48fc-4c5d-af20-625f2be1ac9a
+          logical_operator: and
+        selected: false
+        title: N201__PRO_DIAG_OFFER__IF
+        type: if-else
+      height: 172
+      id: '1900000001301'
+      position:
+        x: 4400
+        y: 1850
+      positionAbsolute:
+        x: 4400
+        y: 1850
+      type: custom
+      width: 242
+    - data:
+        code: 'function main(inputs){ return { state_value: "ST_STRATEGY" }; }'
+        code_language: javascript
+        outputs:
+          state_value:
+            children: null
+            type: string
+        selected: false
+        title: N202__PRO_DIAG_FORM__STATE_CONST__CODE
+        type: code
+        variables: []
+      height: 52
+      id: '1900000001306'
+      position:
+        x: 4600
+        y: 1750
+      positionAbsolute:
+        x: 4600
+        y: 1750
+      type: custom
+      width: 242
+    - data:
+        items:
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1900000001306'
+          - state_value
+          variable_selector:
+          - conversation
+          - cv_state
+          write_mode: over-write
+        selected: false
+        title: N203__PRO_DIAG_FORM__SET_STATE__SET
+        type: assigner
+        version: '2'
+      height: 84
+      id: '1900000001307'
+      position:
+        x: 4800
+        y: 1750
+      positionAbsolute:
+        x: 4800
+        y: 1750
+      type: custom
+      width: 242
+    - data:
+        answer: '弊社では住宅ローンの申請が通るか、事前の診断が可能。
+
+          今回ご案内する方法では、お客様の与信情報を参照しながら診断することが可能。
+
+          銀行などが実際に参照する信用情報と同じデータを使用し、約1分で精度の高い診断結果を確認可能。
+
+
+          ※事前審査とは無関係のため、信用情報に記録は残りません
+
+          ※個人事業主の方も利用可能（その場合は「会社員」をご選択）
+
+          ※借入希望額が未確定なら大体の数字でOK（結果には影響なし）
+
+
+          下記フォームより、必要事項の入力と顔認証で申込可能
+
+          ◆プロ住宅ローン診断フォーム
+
+          https://1min-assmt.home-loan.jp/?partnerId=025cbb0b-06ca-49d6-906c-6cd59f85dcd2
+
+
+          ⚠️「営業担当者」は【南手 ちなみ】を必ずご選択
+
+          ※別担当者だと結果が届きません
+
+
+          また、LINE名がフルネームでない場合は、診断後にフルネームをお知らせください
+
+          結果が届き次第、こちらから共有します'
+        selected: false
+        title: N204__PRO_DIAG_FORM__ANS
+        type: answer
+        variables: []
+      height: 452
+      id: '1900000001308'
+      position:
+        x: 5000
+        y: 1750
+      positionAbsolute:
+        x: 5000
+        y: 1750
+      type: custom
+      width: 242
+    - data:
+        code: 'function main(inputs){ return { state_value: "ST_SCHEDULING" }; }'
+        code_language: javascript
+        outputs:
+          state_value:
+            children: null
+            type: string
+        selected: false
+        title: N205__CALL_OFFER__STATE_CONST__CODE
+        type: code
+        variables: []
+      height: 52
+      id: '1900000001303'
+      position:
+        x: 4600
+        y: 1950
+      positionAbsolute:
+        x: 4600
+        y: 1950
+      type: custom
+      width: 242
+    - data:
+        items:
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1900000001303'
+          - state_value
+          variable_selector:
+          - conversation
+          - cv_state
+          write_mode: over-write
+        selected: false
+        title: N206__CALL_OFFER__SET_STATE__SET
+        type: assigner
+        version: '2'
+      height: 84
+      id: '1900000001304'
+      position:
+        x: 4800
+        y: 1950
+      positionAbsolute:
+        x: 4800
+        y: 1950
+      type: custom
+      width: 242
+    - data:
+        answer: 'このあたりは文章だけだと情報が足りず、誤解が生じやすいため、詳しい状況を伺いながら、最適な審査プランを相談するという意味で、5分ほどお電話でお話しすることも可能です（任意です）。
+
+          無理にお電話いただく必要はございません。
+
+
+          お電話をご希望でしたら、候補日時を2〜3つご提示ください（例：明日10-12時／明後日18-20時など）。'
+        selected: false
+        title: N207__CALL_OFFER__ANS
+        type: answer
+        variables: []
+      height: 244
+      id: '1900000001305'
+      position:
+        x: 5000
+        y: 1950
+      positionAbsolute:
+        x: 5000
+        y: 1950
+      type: custom
+      width: 242
+    - data:
+        answer: '回答は「はい」または「いいえ」でお願いします。
+
+          プロ住宅ローン診断を試す場合：はい
+
+          電話で相談したい場合：いいえ（候補日時を案内）'
+        selected: false
+        title: N208__PRO_DIAG_OFFER__REPROMPT__ANS
+        type: answer
+        variables: []
+      height: 148
+      id: '1900000001309'
+      position:
+        x: 4600
+        y: 2150
+      positionAbsolute:
+        x: 4600
+        y: 2150
+      type: custom
+      width: 242
+    viewport:
+      x: -291.00912442155277
+      y: 208.64509133811526
+      zoom: 0.45947934199881396
+  rag_pipeline_variables: []

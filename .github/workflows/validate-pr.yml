@@ -1,0 +1,100 @@
+name: Validate DSL on Pull Request
+
+on:
+  pull_request:
+    paths:
+      - 'templates/**/*.yaml'
+      - 'templates/**/*.yml'
+      - 'schemas/**/*.json'
+
+jobs:
+  validate-pr:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+
+    steps:
+      - name: リポジトリをチェックアウト
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Python セットアップ
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 依存ツールをインストール
+        run: pip install pyyaml jsonschema networkx yamllint
+
+      - name: スクリプトに実行権限を付与
+        run: chmod +x scripts/*.sh
+
+      - name: PR内の変更ファイルを取得
+        id: changed-files
+        run: |
+          git diff --name-only origin/${{ github.base_ref }}...HEAD \
+            | grep -E '\.(yaml|yml)$' \
+            | grep '^templates/' \
+            > changed_templates.txt || true
+          echo "変更されたテンプレファイル:"
+          cat changed_templates.txt
+
+      - name: 変更されたテンプレのみ検証
+        id: validate
+        run: |
+          FAILED=0
+          PASSED=0
+          RESULTS=""
+
+          while IFS= read -r file; do
+            if [ -f "$file" ]; then
+              echo "🔍 検証中: $file"
+              if bash scripts/validate-dsl.sh "$file" 2>&1; then
+                PASSED=$((PASSED + 1))
+                RESULTS="${RESULTS}\n✅ \`${file}\`: PASS"
+              else
+                FAILED=$((FAILED + 1))
+                RESULTS="${RESULTS}\n❌ \`${file}\`: FAIL"
+              fi
+            fi
+          done < changed_templates.txt
+
+          echo "passed=$PASSED" >> $GITHUB_OUTPUT
+          echo "failed=$FAILED" >> $GITHUB_OUTPUT
+          echo -e "$RESULTS" > validation_results.txt
+
+          if [ $FAILED -gt 0 ]; then
+            exit 1
+          fi
+
+      - name: PR にコメントを投稿
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            let results = '';
+            try {
+              results = fs.readFileSync('validation_results.txt', 'utf8');
+            } catch(e) {
+              results = '変更されたDSLファイルはありませんでした。';
+            }
+
+            const passed = '${{ steps.validate.outputs.passed }}';
+            const failed = '${{ steps.validate.outputs.failed }}';
+            const status = failed > 0 ? '❌ 検証失敗' : '✅ 検証合格';
+
+            const body = `## DSL 検証結果 ${status}\n\n` +
+              `| 結果 | 件数 |\n|---|---|\n` +
+              `| ✅ PASS | ${passed} |\n` +
+              `| ❌ FAIL | ${failed} |\n\n` +
+              `### ファイル別結果\n${results}\n\n` +
+              (failed > 0 ? '> ❌ エラーを修正してから再度プッシュしてください。\n> 詳細: `docs/06_TroubleshootingGuide.md`' : '> Difyへのインポートが可能です。');
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });

@@ -1,0 +1,401 @@
+app:
+  description: 住宅ローン相談ワークフロー（Phase1-5 スロット回収＋審査判定＋アポ獲得）
+  icon: 🏠
+  icon_background: '#D5F5F6'
+  mode: advanced-chat
+  name: いえすまLINE_住宅ローン相談_v1.0.0
+  use_icon_as_answer_icon: false
+
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/openai:0.2.8@aae2be0913b8c6f0b80cff58e08d7a8b4c214569b41778413fcaea204561ff16
+    version: null
+
+kind: app
+version: 0.6.0
+
+workflow:
+  conversation_variables:
+  - description: 住宅ローン相談の回収済みスロット
+    id: cv_slots_hl
+    name: cv_slots
+    selector:
+    - conversation
+    - cv_slots
+    value: {}
+    value_type: object
+  - description: 現在のPhase状態（phase1〜phase5 or done）
+    id: cv_state_hl
+    name: cv_state
+    selector:
+    - conversation
+    - cv_state
+    value: ''
+    value_type: string
+
+  environment_variables: []
+
+  features:
+    file_upload:
+      enabled: false
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+
+  graph:
+    edges:
+    - data:
+        isInLoop: false
+        sourceType: start
+        targetType: if-else
+      id: hl-start-source-ifelse-target
+      selected: false
+      source: hl-node-start
+      sourceHandle: source
+      target: hl-node-phase-check
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: hl-ifelse-phase1-llm-target
+      selected: false
+      source: hl-node-phase-check
+      sourceHandle: hl-phase1-case
+      target: hl-node-llm-extract
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: hl-ifelse-other-llm-target
+      selected: false
+      source: hl-node-phase-check
+      sourceHandle: 'false'
+      target: hl-node-llm-extract
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: hl-llm-source-code-target
+      selected: false
+      source: hl-node-llm-extract
+      sourceHandle: source
+      target: hl-node-parse-json
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: assigner
+      id: hl-code-source-assigner-target
+      selected: false
+      source: hl-node-parse-json
+      sourceHandle: source
+      target: hl-node-assign-slots
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: assigner
+        targetType: llm
+      id: hl-assigner-source-reply-target
+      selected: false
+      source: hl-node-assign-slots
+      sourceHandle: source
+      target: hl-node-llm-reply
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: answer
+      id: hl-reply-source-answer-target
+      selected: false
+      source: hl-node-llm-reply
+      sourceHandle: source
+      target: hl-node-answer
+      targetHandle: target
+      type: custom
+      zIndex: 0
+
+    nodes:
+    - data:
+        selected: false
+        title: ユーザー入力
+        type: start
+        variables: []
+      height: 73
+      id: hl-node-start
+      position:
+        x: 0
+        y: 200
+      positionAbsolute:
+        x: 0
+        y: 200
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+
+    - data:
+        cases:
+        - case_id: hl-phase1-case
+          conditions:
+          - comparison_operator: is empty
+            id: hl-cond-state
+            value: ''
+            varType: string
+            variable_selector:
+            - conversation
+            - cv_state
+          logical_operator: and
+        - case_id: hl-phase-done-case
+          conditions:
+          - comparison_operator: contains
+            id: hl-cond-done
+            value: 'done'
+            varType: string
+            variable_selector:
+            - conversation
+            - cv_state
+          logical_operator: and
+        selected: false
+        title: Phase判定
+        type: if-else
+      height: 154
+      id: hl-node-phase-check
+      position:
+        x: 300
+        y: 200
+      positionAbsolute:
+        x: 300
+        y: 200
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        memory:
+          enabled: false
+          window:
+            enabled: false
+            size: 10
+        model:
+          completion_params:
+            temperature: 0.2
+          mode: chat
+          name: gpt-4o-mini
+          provider: langgenius/openai/openai
+        prompt_template:
+        - id: hl-system-extract
+          role: system
+          text: |
+            あなたは住宅ローン相談サービスの受付AIです。
+            ユーザーの入力からスロット情報をJSON形式で抽出してください。
+
+            【抽出キー】
+            - prefecture: 都道府県
+            - employment_type: 雇用形態（正社員/契約社員/自営業/パート等）
+            - annual_income: 年収（例: "600万"）
+            - loan_count: 現在のローン件数
+            - loan_total_amount: 現在のローン総額
+            - monthly_repayment_total: 月々の返済合計
+            - has_delinquency: 延滞履歴（はい/いいえ/不明）
+            - has_past_screening_failure: 審査落ち経験（はい/いいえ/不明）
+
+            【ルール】
+            - 出力はJSONのみ（前後に説明不要）
+            - 不明・未記載は空文字 "" にする
+        selected: false
+        title: スロット抽出LLM
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 140
+      id: hl-node-llm-extract
+      position:
+        x: 600
+        y: 200
+      positionAbsolute:
+        x: 600
+        y: 200
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+
+    - data:
+        code: |
+          import json
+          def main(llm_output: str) -> dict:
+              try:
+                  text = llm_output.strip()
+                  if text.startswith("```"):
+                      lines = text.split("\n")
+                      text = "\n".join(lines[1:-1])
+                  parsed = json.loads(text)
+                  return {"slots_json": json.dumps(parsed, ensure_ascii=False)}
+              except Exception as e:
+                  return {"slots_json": "{}"}
+        code_language: python3
+        outputs:
+          slots_json:
+            children: null
+            type: string
+        selected: false
+        title: JSONパース
+        type: code
+        variables:
+        - value_selector:
+          - hl-node-llm-extract
+          - text
+          variable: llm_output
+      height: 107
+      id: hl-node-parse-json
+      position:
+        x: 900
+        y: 200
+      positionAbsolute:
+        x: 900
+        y: 200
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+
+    - data:
+        actions:
+        - operation: set
+          value: '{{#hl-node-parse-json.slots_json#}}'
+          variable_selector:
+          - conversation
+          - cv_slots
+        selected: false
+        title: スロット保存
+        type: assigner
+      height: 73
+      id: hl-node-assign-slots
+      position:
+        x: 1200
+        y: 200
+      positionAbsolute:
+        x: 1200
+        y: 200
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        memory:
+          enabled: true
+          window:
+            enabled: true
+            size: 10
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gpt-4o-mini
+          provider: langgenius/openai/openai
+        prompt_template:
+        - id: hl-system-reply
+          role: system
+          text: |
+            あなたは不動産会社「株式会社エルスタット」の住宅ローン相談AI「いえすま」です。
+
+            【現在のスロット情報】
+            {{#conversation.cv_slots#}}
+
+            【回答ルール】
+            - 未回収のスロットがあれば、自然な会話で1つずつ確認する
+            - すべてのスロットが揃ったら審査可能性を回答する
+            - 常に丁寧・親切なトーンで対応する
+            - 個人情報の取り扱いに注意する
+        selected: false
+        title: 応答生成LLM
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 140
+      id: hl-node-llm-reply
+      position:
+        x: 1500
+        y: 200
+      positionAbsolute:
+        x: 1500
+        y: 200
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+
+    - data:
+        answer: '{{#hl-node-llm-reply.text#}}'
+        selected: false
+        title: 回答出力
+        type: answer
+        variables: []
+      height: 107
+      id: hl-node-answer
+      position:
+        x: 1800
+        y: 200
+      positionAbsolute:
+        x: 1800
+        y: 200
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242

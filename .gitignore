@@ -1,0 +1,42 @@
+# ── 秘密情報 ─────────────────────────────────────────────
+.env
+.env.local
+.env.*.local
+secrets.json
+*_secrets.yaml
+*_secrets.yml
+
+# ── ローカル検証ログ ──────────────────────────────────────
+validation_report.txt
+validation_weekly_report.md
+*.log
+*.tmp
+
+# ── Python ───────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.python-version
+.venv/
+venv/
+ENV/
+env/
+
+# ── Node.js ──────────────────────────────────────────────
+node_modules/
+npm-debug.log*
+.npm
+
+# ── IDE ──────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*.DS_Store
+Thumbs.db
+
+# ── その他 ───────────────────────────────────────────────
+*.bak
+*.orig

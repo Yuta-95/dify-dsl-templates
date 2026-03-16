@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "dify-workflow.housing-loan.schema.json",
+  "title": "Dify 住宅ローン相談ワークフロー スキーマ",
+  "allOf": [
+    { "$ref": "dify-workflow.line-concierge.schema.json" },
+    {
+      "type": "object",
+      "description": "住宅ローン相談に特化した追加制約",
+      "properties": {
+        "app": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "アプリ名（例: いえすまLINE対応_大元_v1）"
+            }
+          }
+        }
+      }
+    }
+  ]
+}
