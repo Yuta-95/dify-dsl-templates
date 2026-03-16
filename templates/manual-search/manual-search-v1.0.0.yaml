@@ -1,7 +1,9 @@
 app:
   mode: workflow
   name: マニュアル質問応答システム
-  version: 0.1.3
+
+kind: app
+version: 0.1.3
 
 workflow:
   graph:
